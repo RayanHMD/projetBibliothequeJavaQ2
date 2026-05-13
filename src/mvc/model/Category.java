@@ -2,9 +2,9 @@ package mvc.model;
 
 public class Category {
     private String label;
-    private double rentalPrice;
+    private Double rentalPrice;
 
-    public Category(String label, double rentalPrice) {
+    public Category(String label, Double rentalPrice) {
         this.label = label;
         this.rentalPrice = rentalPrice;
     }

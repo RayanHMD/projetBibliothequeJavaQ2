@@ -2,9 +2,9 @@ package mvc.model;
 
 public class Location {
     private String name;
-    private int postalCode;
+    private Integer postalCode;
 
-    public Location(String name, int postalCode) {
+    public Location(String name, Integer postalCode) {
         this.name = name;
         this.postalCode = postalCode;
     }

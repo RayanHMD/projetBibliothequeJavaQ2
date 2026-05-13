@@ -1,10 +1,10 @@
 package mvc.model;
 
 public class Copy {
-    private int id;
+    private Integer id;
     private Book book;
 
-    public Copy(int id, Book book) {
+    public Copy(Integer id, Book book) {
         this.id = id;
         this.book = book;
     }

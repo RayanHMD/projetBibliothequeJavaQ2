@@ -3,19 +3,19 @@ package mvc.model;
 import java.util.Date;
 
 public class User {
-    private int readerNumber;
+    private Integer readerNumber;
     private String lastName;
     private String firstName;
     private String streetNumberAndName;
     private String numberPhone;
     private Date registrationDate;
-    private boolean hadPaidRegistration;
+    private Boolean hadPaidRegistration;
     private Date birthDate;
     private String email;
     private Location nameLocation;
     private Location postalCode;
 
-    public User(int readerNumber, String lastName, String firstName, String streetNumberAndName, String numberPhone, Date registrationDate, boolean hadPaidRegistration, Date birthDate, String email, Location nameLocation, Location postalCode) {
+    public User(Integer readerNumber, String lastName, String firstName, String streetNumberAndName, String numberPhone, Date registrationDate, Boolean hadPaidRegistration, Date birthDate, String email, Location nameLocation, Location postalCode) {
         this.readerNumber = readerNumber;
         this.lastName = lastName;
         this.firstName = firstName;

@@ -3,12 +3,12 @@ package mvc.model;
 import java.util.Date;
 
 public class Card {
-    private int cardNumber;
+    private Integer cardNumber;
     private Date expirationDate;
-    private boolean isActive;
+    private Boolean isActive;
     private User user;
 
-    public Card(int cardNumber, Date expirationDate, boolean isActive, User user) {
+    public Card(Integer cardNumber, Date expirationDate, Boolean isActive, User user) {
         this.cardNumber = cardNumber;
         this.expirationDate = expirationDate;
         this.isActive = isActive;

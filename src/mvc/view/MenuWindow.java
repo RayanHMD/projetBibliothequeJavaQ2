@@ -8,7 +8,7 @@ import java.awt.event.WindowEvent;
 public class MenuWindow extends JFrame {
     private JMenuBar menuBar;
     private JMenu application, user, book, infos;
-    private JMenuItem quitter, inscription, bookList, iesn, aide;
+    private JMenuItem quitter, inscription, bookList, iesn , aide;
     private BookList bookListPanel;
     private JLabel acceuilLabel;
     private Container frameContainer;
