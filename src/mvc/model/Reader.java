@@ -12,10 +12,9 @@ public class Reader {
     private Boolean hadPaidRegistration;
     private Date birthDate;
     private String email;
-    private Location nameLocation;
-    private Location postalCode;
+    private Location location;
 
-    public Reader(Integer readerNumber, String lastName, String firstName, String streetNumberAndName, String numberPhone, Date registrationDate, Boolean hadPaidRegistration, Date birthDate, String email, Location nameLocation, Location postalCode) {
+    public Reader(Integer readerNumber, String lastName, String firstName, String streetNumberAndName, String numberPhone, Date registrationDate, Boolean hadPaidRegistration, Date birthDate, String email, String nameLocation, Integer postalCode) {
         this.readerNumber = readerNumber;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -25,7 +24,6 @@ public class Reader {
         this.hadPaidRegistration = hadPaidRegistration;
         this.birthDate = birthDate;
         this.email = email;
-        this.nameLocation = nameLocation;
-        this.postalCode = postalCode;
+        this.location = LocationFactory.getLocation(nameLocation, postalCode);
     }
 }
