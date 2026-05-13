@@ -13,7 +13,7 @@ public class Book {
         this.category = category;
     }
 
-    public Book(int isbn, String title, Category category) {
+    public Book(Integer isbn, String title, Category category) {
         this(isbn, title, null, category);
     }
 }
