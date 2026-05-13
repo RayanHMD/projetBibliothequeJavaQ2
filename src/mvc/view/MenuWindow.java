@@ -7,8 +7,8 @@ import java.awt.event.WindowEvent;
 
 public class MenuWindow extends JFrame {
     private JMenuBar menuBar;
-    private JMenu application, user, book, infos;
-    private JMenuItem quitter, inscription, bookList, iesn , aide;
+    private JMenu application, reader, book, infos;
+    private JMenuItem quitter, inscription,readerList,readerUpdate, readerDelete, bookList , aide;
     private BookList bookListPanel;
     private JLabel acceuilLabel;
     private Container frameContainer;
@@ -39,18 +39,48 @@ public class MenuWindow extends JFrame {
         quitter.addActionListener(exitListener);
         //endregion
 
-        //region user
-        user = new JMenu("Utilisateur");
-        user.setMnemonic('U');
-        menuBar.add(user);
+        //region reader
+        reader = new JMenu("Utilisateur");
+        reader.setMnemonic('U');
+        menuBar.add(reader);
         inscription = new JMenuItem("Inscription");
-        user.add(inscription);
+        reader.add(inscription);
         inscription.addActionListener(e -> {
             //formInscription = new RegistrationForm(this);
             frameContainer = this.getContentPane();
             frameContainer.removeAll();
             frameContainer.setLayout(new BorderLayout());
             //frameContainer.add(formInscription, BorderLayout.CENTER);
+            frameContainer.revalidate();
+            frameContainer.repaint();
+        });
+
+        readerList = new JMenuItem("Lister les membres");
+        reader.add(readerList);
+        readerList.addActionListener(e -> {
+            frameContainer = this.getContentPane();
+            frameContainer.removeAll();
+            frameContainer.setLayout(new BorderLayout());
+            frameContainer.revalidate();
+            frameContainer.repaint();
+        });
+
+        readerUpdate = new JMenuItem("Modifier un membre");
+        reader.add(readerUpdate);
+        readerUpdate.addActionListener(e -> {
+            frameContainer = this.getContentPane();
+            frameContainer.removeAll();
+            frameContainer.setLayout(new BorderLayout());
+            frameContainer.revalidate();
+            frameContainer.repaint();
+        });
+
+        readerDelete = new JMenuItem("Supprimer un membre");
+        reader.add(readerDelete);
+        readerDelete.addActionListener(e -> {
+            frameContainer = this.getContentPane();
+            frameContainer.removeAll();
+            frameContainer.setLayout(new BorderLayout());
             frameContainer.revalidate();
             frameContainer.repaint();
         });
@@ -73,29 +103,12 @@ public class MenuWindow extends JFrame {
         });
         //endregion
 
-        //region Infos
-        infos = new JMenu("Infos");
-        infos.setMnemonic('I');
-        menuBar.add(infos);
-        //region Sous menu IESN
-        iesn = new JMenuItem("IESN");
-        infos.add(iesn);
 
-        // Ouvre le sous menu IESN
-        iesn.addActionListener(e -> {
-            //panelIesnInformation = new IesnInformation();
-            frameContainer = this.getContentPane();
-            frameContainer.removeAll();
-            frameContainer.setLayout(new BorderLayout());
-            //frameContainer.add(panelIesnInformation, BorderLayout.CENTER);
-            frameContainer.revalidate();
-            frameContainer.repaint();
-        });
-        //endregion
+
+
 
         //region Sous menu Aide
         aide = new JMenuItem("Aide");
-        infos.add(aide);
         aide.addActionListener(e -> {
             //new AideWindow().setVisible(true);
         });

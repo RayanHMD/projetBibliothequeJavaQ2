@@ -8,10 +8,10 @@ public class Loan {
     private Integer maximumLoanDuration;
     private Date actualReturnDate;
     private Boolean hasExtended;
-    private User borrower;
+    private Reader borrower;
     private Copy copy;
 
-    public Loan(Integer id, Date loanDate, Integer maximumLoanDuration, Date actualReturnDate, Boolean hasExtended, User borrower, Copy copy) {
+    public Loan(Integer id, Date loanDate, Integer maximumLoanDuration, Date actualReturnDate, Boolean hasExtended, Reader borrower, Copy copy) {
         this.id = id;
         this.LoanDate = loanDate;
         this.maximumLoanDuration = maximumLoanDuration;

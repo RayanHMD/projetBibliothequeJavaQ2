@@ -6,12 +6,12 @@ public class Card {
     private Integer cardNumber;
     private Date expirationDate;
     private Boolean isActive;
-    private User user;
+    private Reader reader;
 
-    public Card(Integer cardNumber, Date expirationDate, Boolean isActive, User user) {
+    public Card(Integer cardNumber, Date expirationDate, Boolean isActive, Reader reader) {
         this.cardNumber = cardNumber;
         this.expirationDate = expirationDate;
         this.isActive = isActive;
-        this.user = user;
+        this.reader = reader;
     }
 }

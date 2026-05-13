@@ -2,7 +2,7 @@ package mvc.model;
 
 import java.util.Date;
 
-public class User {
+public class Reader {
     private Integer readerNumber;
     private String lastName;
     private String firstName;
@@ -15,7 +15,7 @@ public class User {
     private Location nameLocation;
     private Location postalCode;
 
-    public User(Integer readerNumber, String lastName, String firstName, String streetNumberAndName, String numberPhone, Date registrationDate, Boolean hadPaidRegistration, Date birthDate, String email, Location nameLocation, Location postalCode) {
+    public Reader(Integer readerNumber, String lastName, String firstName, String streetNumberAndName, String numberPhone, Date registrationDate, Boolean hadPaidRegistration, Date birthDate, String email, Location nameLocation, Location postalCode) {
         this.readerNumber = readerNumber;
         this.lastName = lastName;
         this.firstName = firstName;
