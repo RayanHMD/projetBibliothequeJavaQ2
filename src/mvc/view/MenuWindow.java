@@ -12,8 +12,7 @@ public class MenuWindow extends JFrame {
     private BookList bookListPanel;
     private JLabel acceuilLabel;
     private Container frameContainer;
-    //private IesnInformation panelIesnInformation;
-    //private RegistrationForm formInscription;
+    private RegistrationForm formInscription;
 
     public MenuWindow() {
         super("First Window");
@@ -46,11 +45,11 @@ public class MenuWindow extends JFrame {
         inscription = new JMenuItem("Inscription");
         reader.add(inscription);
         inscription.addActionListener(e -> {
-            //formInscription = new RegistrationForm(this);
+            formInscription = new RegistrationForm(this);
             frameContainer = this.getContentPane();
             frameContainer.removeAll();
             frameContainer.setLayout(new BorderLayout());
-            //frameContainer.add(formInscription, BorderLayout.CENTER);
+            frameContainer.add(formInscription, BorderLayout.CENTER);
             frameContainer.revalidate();
             frameContainer.repaint();
         });
