@@ -5,14 +5,14 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RegistrationForm extends JPanel{
-    private JPanel formPanel;
+    private JPanel formPanel, buttonPanel;
     private JTextField firstName, lastName, email, numberPhone,
             streetNumberAndName, gender, birthDate;
     private JLabel firstNameLabel, lastNameLabel, emailLabel, numberPhoneLabel
-            , streetNumberLabel, genderLabel, birthDateLabel, locationLabel;
+            , streetNumberLabel, genderLabel, birthDateLabel, locationLabel, hadPaidRegistrationLabel;
     private JComboBox nameLocation;
     private JCheckBox hadPaidRegistration;
-    private JButton registerButton, cancelButton;
+    private JButton inscriptionButton, cancelButton, resetButton;
     private MenuWindow parent;
 
     public RegistrationForm(MenuWindow parent){
@@ -99,12 +99,98 @@ public class RegistrationForm extends JPanel{
         nameLocation.setEnabled(true);
         formPanel.add(nameLocation);
 
-
+        // had paid registration
+        hadPaidRegistrationLabel = new JLabel("A payé l'inscription ?");
+        hadPaidRegistrationLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        formPanel.add(hadPaidRegistrationLabel);
+        hadPaidRegistration = new JCheckBox();
+        hadPaidRegistration.setHorizontalAlignment(SwingConstants.CENTER);
+        formPanel.add(hadPaidRegistration);
 
         add(formPanel, BorderLayout.CENTER);
 
+        // button Panel
+        buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+        // button cancel
+        cancelButton = new JButton("Annuler l'inscription");
+        buttonPanel.add(cancelButton);
+        cancelButton.addActionListener(e -> {
+            parent.setAccueil();
+        });
+
+        // button inscription
+        inscriptionButton = new JButton("Inscription");
+        buttonPanel.add(inscriptionButton);
+        inscriptionButton.addActionListener(e -> {
+
+            if(checkForm() != null){
+                JOptionPane.showMessageDialog(this, checkForm(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Inscription réussie !");
+            }
+
+        });
+
+        // reset button
+        resetButton = new JButton("Réinitialiser");
+        buttonPanel.add(resetButton);
+        resetButton.addActionListener(e -> {
+            firstName.setText("");
+            lastName.setText("");
+            email.setText("");
+            numberPhone.setText("");
+            streetNumberAndName.setText("");
+            gender.setText("");
+            birthDate.setText("");
+            nameLocation.setSelectedIndex(0);
+            hadPaidRegistration.setSelected(false);
+        });
+        add(buttonPanel, BorderLayout.SOUTH);
 
 
+
+    }
+
+    private String checkForm() {
+
+        if (firstName.getText().trim().isEmpty()) {
+            return "Veuillez entrer un prénom";
+        }
+
+        if (lastName.getText().trim().isEmpty()) {
+            return "Veuillez entrer un nom de famille";
+        }
+
+        if(birthDate.getText().trim().isEmpty()){
+            return "Veuillez entrer un date de naissance";
+        }
+
+        if (email.getText().trim().isEmpty()) {
+            return "Veuillez entrer un email";
+        }
+
+        String regex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+
+        if (!email.getText().trim().matches(regex)) {
+            return "Email invalide";
+        }
+
+        if (streetNumberAndName.getText().trim().isEmpty()) {
+            return "Entrer une rue et un numéro";
+        }
+
+        if (nameLocation.getSelectedIndex() == 0) {
+            return "Veuillez choisir une localité";
+        }
+
+        if (!hadPaidRegistration.isSelected()) {
+            return "Le paiement de l'inscription est obligatoire";
+        }
+
+        return null;
     }
 
 }
