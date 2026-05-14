@@ -1,22 +1,32 @@
 package mvc.view;
 
 
+import mvc.controller.LocationController;
+import mvc.exception.DataAccessException;
+import mvc.model.Location;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class RegistrationForm extends JPanel{
     private JPanel formPanel, buttonPanel;
     private JTextField firstName, lastName, email, numberPhone,
-            streetNumberAndName, gender, birthDate;
+            streetNumberAndName, gender;
+    private JSpinner birthDate;
     private JLabel firstNameLabel, lastNameLabel, emailLabel, numberPhoneLabel
             , streetNumberLabel, genderLabel, birthDateLabel, locationLabel, hadPaidRegistrationLabel;
     private JComboBox nameLocation;
     private JCheckBox hadPaidRegistration;
     private JButton inscriptionButton, cancelButton, resetButton;
     private MenuWindow parent;
+    private LocationController locationController;
 
     public RegistrationForm(MenuWindow parent){
         this.parent = parent;
+        locationController = new LocationController();
+
         setLayout(new BorderLayout());
 
         // Title
@@ -58,7 +68,11 @@ public class RegistrationForm extends JPanel{
         birthDateLabel = new JLabel("Date d'anniversaire du membre: ");
         birthDateLabel.setHorizontalAlignment(SwingConstants.CENTER);
         formPanel.add(birthDateLabel);
-        birthDate = new JTextField();
+
+        SpinnerDateModel model = new SpinnerDateModel();
+        birthDate = new JSpinner(model);
+        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(birthDate, "dd/MM/yyyy");
+        birthDate.setEditor(dateEditor);
         birthDate.setToolTipText("Entrer la date d'anniversaire du membre");
         formPanel.add(birthDate);
 
@@ -95,8 +109,18 @@ public class RegistrationForm extends JPanel{
         locationLabel.setHorizontalAlignment(SwingConstants.CENTER);
         formPanel.add(locationLabel);
         nameLocation = new JComboBox();
-        nameLocation.setToolTipText("Choissisez votre continent d'origine");
-        nameLocation.setEnabled(true);
+        nameLocation.addItem("Choisir une localité");
+
+        try{
+            ArrayList<Location> locations = locationController.getAllLocations();
+            for(Location loc : locations){
+                nameLocation.addItem(loc);
+            }
+
+        }catch(DataAccessException e){
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Erreur Localité", JOptionPane.ERROR_MESSAGE);
+        }
+
         formPanel.add(nameLocation);
 
         // had paid registration
@@ -144,7 +168,7 @@ public class RegistrationForm extends JPanel{
             numberPhone.setText("");
             streetNumberAndName.setText("");
             gender.setText("");
-            birthDate.setText("");
+            birthDate.setValue(new Date());
             nameLocation.setSelectedIndex(0);
             hadPaidRegistration.setSelected(false);
         });
@@ -164,8 +188,9 @@ public class RegistrationForm extends JPanel{
             return "Veuillez entrer un nom de famille";
         }
 
-        if(birthDate.getText().trim().isEmpty()){
-            return "Veuillez entrer un date de naissance";
+        Date selectedDate = (Date) birthDate.getValue();
+        if(selectedDate.after(new Date())){
+            return "Veuillez entrer une date corret, elle ne peut pas être dans le futur";
         }
 
         if (email.getText().trim().isEmpty()) {
