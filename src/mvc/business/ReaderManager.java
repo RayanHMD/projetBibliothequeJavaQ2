@@ -21,4 +21,12 @@ public class ReaderManager {
     public void addReader(Reader reader) throws DataAccessException {
         readerDataAccess.addReader(reader);
     }
+
+    public void updateReader(Reader reader) throws DataAccessException {
+        readerDataAccess.updateReader(reader);
+    }
+
+    public void deleteReader(Reader reader) throws DataAccessException {
+        readerDataAccess.deleteReader(reader);
+    }
 }

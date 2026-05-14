@@ -6,7 +6,12 @@ import mvc.model.Reader;
 import java.util.ArrayList;
 
 public interface ReaderDataAccess {
+
     ArrayList<Reader> getAllReaders() throws DataAccessException;
 
     void addReader(Reader reader) throws DataAccessException;
+
+    void updateReader(Reader reader) throws DataAccessException;
+
+    void deleteReader(Reader reader) throws DataAccessException;
 }
