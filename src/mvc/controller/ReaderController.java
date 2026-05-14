@@ -24,4 +24,8 @@ public class ReaderController {
     public void updateReader(Reader reader) throws DataAccessException {
         readerManager.updateReader(reader);
     }
+
+    public void deleteReader(Reader reader) throws DataAccessException {
+        readerManager.deleteReader(reader);
+    }
 }

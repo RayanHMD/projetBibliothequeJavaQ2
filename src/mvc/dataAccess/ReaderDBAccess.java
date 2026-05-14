@@ -129,4 +129,33 @@ public class ReaderDBAccess implements ReaderDataAccess {
         }
 
     }
+
+    @Override
+    public void deleteReader(Reader reader) throws DataAccessException {
+        String checkSql = "SELECT COUNT(*) FROM Loan WHERE borrower = ? ";
+        String deleteSql = "DELETE FROM Reader WHERE readerNumber = ?";
+
+        try {
+            Connection connection = SingletonConnection.getInstance();
+
+            PreparedStatement checkStatement = connection.prepareStatement(checkSql);
+            checkStatement.setInt(1, reader.getReaderNumber());
+            ResultSet resultSet = checkStatement.executeQuery();
+
+            if(resultSet.next()) {
+                int numberOfLoans = resultSet.getInt(1);
+
+                if(numberOfLoans > 0) {
+                    throw new DataAccessException("Impossible de supprimer le lecteur car il possede des emprunts.",null);
+                }
+                else {
+                    PreparedStatement deleteStatement = connection.prepareStatement(deleteSql);
+                    deleteStatement.setInt(1, reader.getReaderNumber());
+                    deleteStatement.executeUpdate();
+                }
+            }
+        } catch (SQLException exception) {
+            throw new DataAccessException("Impossible de supprimer le lecteur.", exception);
+        }
+    }
 }

@@ -12,4 +12,6 @@ public interface ReaderDataAccess {
     void addReader(Reader reader) throws DataAccessException;
 
     void updateReader(Reader reader) throws DataAccessException;
+
+    void deleteReader(Reader reader) throws DataAccessException;
 }
