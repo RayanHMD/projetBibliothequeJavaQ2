@@ -131,61 +131,25 @@ public class ReaderDBAccess implements ReaderDataAccess {
 
     @Override
     public void deleteReader(Reader reader) throws DataAccessException {
-        String checkCurrentLoansSql = "SELECT COUNT(*) FROM Loan WHERE borrower = ? AND actualReturnDate IS NULL";
-        String selectReservationsSql = "SELECT reservation FROM Notification WHERE reader = ?";
-        String deleteNotificationsSql = "DELETE FROM Notification WHERE reader = ?";
-        String deleteReservationSql = "DELETE FROM Reservation WHERE idReservation = ?";
-        String deleteCardSql = "DELETE FROM Card WHERE reader = ?";
-        String deleteReaderSql = "DELETE FROM Reader WHERE readerNumber = ?";
-
         Connection connection = null;
 
         try {
             connection = SingletonConnection.getInstance();
             connection.setAutoCommit(false);
 
-            PreparedStatement checkStatement = connection.prepareStatement(checkCurrentLoansSql);
-            checkStatement.setInt(1, reader.getReaderNumber());
-            ResultSet checkResultSet = checkStatement.executeQuery();
-
-            if(checkResultSet.next()) {
-                int numberOfCurrentLoans = checkResultSet.getInt(1);
-
-                if (numberOfCurrentLoans > 0) {
-                    throw new SQLException("Impossible de supprimer le lecteur car il possede des emprunts.");
-                }
+            if(hasCurrentLoan(connection, reader.getReaderNumber())) {
+                throw new SQLException("Impossible de supprimer le lecteur car il possede des emprunts.");
             }
+            ArrayList<Integer> reservationsIds = getReservationsIds(connection, reader.getReaderNumber());
 
-            ArrayList<Integer> reservationIds = new ArrayList<>();
-
-            PreparedStatement reservationStatement = connection.prepareStatement(selectReservationsSql);
-            reservationStatement.setInt(1, reader.getReaderNumber());
-            ResultSet reservationResultSet = reservationStatement.executeQuery();
-
-            while(reservationResultSet.next()) {
-                reservationIds.add(reservationResultSet.getInt("reservation"));
-            }
-
-            PreparedStatement deleteNotificationsStatement = connection.prepareStatement(deleteNotificationsSql);
-            deleteNotificationsStatement.setInt(1, reader.getReaderNumber());
-            deleteNotificationsStatement.executeUpdate();
-
-            PreparedStatement deleteReservationStatement = connection.prepareStatement(deleteReservationSql);
-            for(Integer reservationId : reservationIds) {
-                deleteReservationStatement.setInt(1, reservationId);
-                deleteReservationStatement.executeUpdate();
-            }
-
-            PreparedStatement deleteCardStatement = connection.prepareStatement(deleteCardSql);
-            deleteCardStatement.setInt(1, reader.getReaderNumber());
-            deleteCardStatement.executeUpdate();
-
-            PreparedStatement deleteReaderStatement = connection.prepareStatement(deleteReaderSql);
-            deleteReaderStatement.setInt(1, reader.getReaderNumber());
-            deleteReaderStatement.executeUpdate();
+            deleteNotifications(connection, reader.getReaderNumber());
+            deleteReservations(connection,reservationsIds);
+            deleteCard(connection, reader.getReaderNumber());
+            deleteOldLoans(connection, reader.getReaderNumber());
+            deleteReaderRow(connection, reader.getReaderNumber());
 
             connection.commit();
-
+            
         } catch (SQLException exception) {
             try {
                 if (connection != null) {
@@ -205,5 +169,72 @@ public class ReaderDBAccess implements ReaderDataAccess {
                 throw new DataAccessException("Impossible de retablir l'auto-commit.", exception);
             }
         }
+    }
+
+    private boolean hasCurrentLoan(Connection connection, Integer readerNumber) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM Loan WHERE borrower = ? AND actualReturnDate IS NULL";
+
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, readerNumber);
+        ResultSet resultSet = statement.executeQuery();
+
+        return resultSet.next() && resultSet.getInt(1) > 0;
+    }
+
+    private ArrayList<Integer> getReservationsIds(Connection connection, Integer readerNumber) throws SQLException {
+        String sql = "SELECT reservation FROM Notification WHERE reader = ?";
+        ArrayList<Integer> reservationIds = new ArrayList<>();
+
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, readerNumber);
+        ResultSet resultSet = statement.executeQuery();
+
+        while(resultSet.next()) {
+            reservationIds.add(resultSet.getInt("reservation"));
+        }
+
+        return reservationIds;
+    }
+
+    private void deleteNotifications(Connection connection, Integer readerNumber) throws SQLException {
+        String sql = "DELETE FROM Notification WHERE reader = ?";
+
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, readerNumber);
+        statement.executeUpdate();
+    }
+
+    private void deleteReservations(Connection connection, ArrayList<Integer> reservationIds) throws SQLException {
+        String sql = "DELETE FROM Reservation WHERE idReservation = ?";
+
+        PreparedStatement statement = connection.prepareStatement(sql);
+        for(Integer reservationId : reservationIds) {
+            statement.setInt(1, reservationId);
+            statement.executeUpdate();
+        }
+    }
+
+    private void deleteCard(Connection connection, Integer readerNumber) throws SQLException {
+        String sql = "DELETE FROM Card WHERE reader = ?";
+
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, readerNumber);
+        statement.executeUpdate();
+    }
+
+    private void deleteOldLoans(Connection connection, Integer readerNumber) throws SQLException {
+        String sql = "DELETE FROM Loan WHERE borrower = ? AND actualReturnDate IS NOT NULL";
+
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, readerNumber);
+        statement.executeUpdate();
+    }
+
+    private void deleteReaderRow(Connection connection, Integer readerNumber) throws SQLException {
+        String sql = "DELETE FROM Reader WHERE readerNumber = ?";
+
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, readerNumber);
+        statement.executeUpdate();
     }
 }
