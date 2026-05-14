@@ -3,7 +3,6 @@ package mvc.dataAccess;
 import dao.SingletonConnection;
 import mvc.exception.DataAccessException;
 import mvc.model.Reader;
-
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -132,30 +131,79 @@ public class ReaderDBAccess implements ReaderDataAccess {
 
     @Override
     public void deleteReader(Reader reader) throws DataAccessException {
-        String checkSql = "SELECT COUNT(*) FROM Loan WHERE borrower = ? ";
-        String deleteSql = "DELETE FROM Reader WHERE readerNumber = ?";
+        String checkCurrentLoansSql = "SELECT COUNT(*) FROM Loan WHERE borrower = ? AND actualReturnDate IS NULL";
+        String selectReservationsSql = "SELECT reservation FROM Notification WHERE reader = ?";
+        String deleteNotificationsSql = "DELETE FROM Notification WHERE reader = ?";
+        String deleteReservationSql = "DELETE FROM Reservation WHERE idReservation = ?";
+        String deleteCardSql = "DELETE FROM Card WHERE reader = ?";
+        String deleteReaderSql = "DELETE FROM Reader WHERE readerNumber = ?";
+
+        Connection connection = null;
 
         try {
-            Connection connection = SingletonConnection.getInstance();
+            connection = SingletonConnection.getInstance();
+            connection.setAutoCommit(false);
 
-            PreparedStatement checkStatement = connection.prepareStatement(checkSql);
+            PreparedStatement checkStatement = connection.prepareStatement(checkCurrentLoansSql);
             checkStatement.setInt(1, reader.getReaderNumber());
-            ResultSet resultSet = checkStatement.executeQuery();
+            ResultSet checkResultSet = checkStatement.executeQuery();
 
-            if(resultSet.next()) {
-                int numberOfLoans = resultSet.getInt(1);
+            if(checkResultSet.next()) {
+                int numberOfCurrentLoans = checkResultSet.getInt(1);
 
-                if(numberOfLoans > 0) {
-                    throw new DataAccessException("Impossible de supprimer le lecteur car il possede des emprunts.",null);
-                }
-                else {
-                    PreparedStatement deleteStatement = connection.prepareStatement(deleteSql);
-                    deleteStatement.setInt(1, reader.getReaderNumber());
-                    deleteStatement.executeUpdate();
+                if (numberOfCurrentLoans > 0) {
+                    throw new SQLException("Impossible de supprimer le lecteur car il possede des emprunts.");
                 }
             }
+
+            ArrayList<Integer> reservationIds = new ArrayList<>();
+
+            PreparedStatement reservationStatement = connection.prepareStatement(selectReservationsSql);
+            reservationStatement.setInt(1, reader.getReaderNumber());
+            ResultSet reservationResultSet = reservationStatement.executeQuery();
+
+            while(reservationResultSet.next()) {
+                reservationIds.add(reservationResultSet.getInt("reservation"));
+            }
+
+            PreparedStatement deleteNotificationsStatement = connection.prepareStatement(deleteNotificationsSql);
+            deleteNotificationsStatement.setInt(1, reader.getReaderNumber());
+            deleteNotificationsStatement.executeUpdate();
+
+            PreparedStatement deleteReservationStatement = connection.prepareStatement(deleteReservationSql);
+            for(Integer reservationId : reservationIds) {
+                deleteReservationStatement.setInt(1, reservationId);
+                deleteReservationStatement.executeUpdate();
+            }
+
+            PreparedStatement deleteCardStatement = connection.prepareStatement(deleteCardSql);
+            deleteCardStatement.setInt(1, reader.getReaderNumber());
+            deleteCardStatement.executeUpdate();
+
+            PreparedStatement deleteReaderStatement = connection.prepareStatement(deleteReaderSql);
+            deleteReaderStatement.setInt(1, reader.getReaderNumber());
+            deleteReaderStatement.executeUpdate();
+
+            connection.commit();
+
         } catch (SQLException exception) {
-            throw new DataAccessException("Impossible de supprimer le lecteur.", exception);
+            try {
+                if (connection != null) {
+                    connection.rollback();
+                }
+            } catch (SQLException rollbackException) {
+                throw new DataAccessException("Erreur pendant l'annulation de la suppression du lecteur.", rollbackException);
+            }
+            throw new DataAccessException(exception.getMessage(), exception);
+
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.setAutoCommit(true);
+                }
+            } catch (SQLException exception) {
+                throw new DataAccessException("Impossible de retablir l'auto-commit.", exception);
+            }
         }
     }
 }
