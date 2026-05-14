@@ -20,4 +20,8 @@ public class ReaderController {
     public void addReader(Reader reader) throws DataAccessException {
         readerManager.addReader(reader);
     }
+
+    public void updateReader(Reader reader) throws DataAccessException {
+        readerManager.updateReader(reader);
+    }
 }

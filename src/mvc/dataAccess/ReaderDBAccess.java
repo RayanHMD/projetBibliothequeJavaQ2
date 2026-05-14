@@ -86,4 +86,47 @@ public class ReaderDBAccess implements ReaderDataAccess {
             throw new DataAccessException("Impossible d'ajouter le lecteur", exception);
         }
     }
+
+    @Override
+    public void updateReader(Reader reader) throws DataAccessException {
+        String sql = "UPDATE Reader " +
+                     "SET lastName = ?, firstName = ?, gender = ?, numberPhone = ?, registrationDate = ?, " +
+                        "hadPaidRegistration = ?, birthDate = ?, email = ?, streetNumberAndName = ?, nameLocation = ?, " +
+                        "postalCodeLocation = ?\n" +
+                     "WHERE readerNumber = ?";
+
+        try {
+            Connection connection = SingletonConnection.getInstance();
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            statement.setString(1, reader.getLastName());
+            statement.setString(2, reader.getFirstName());
+            if(reader.getGender() != null) {
+                statement.setString(3, reader.getGender().toString());
+            }
+            else {
+                statement.setNull(3, Types.CHAR);
+            }
+            if(reader.getNumberPhone() != null) {
+                statement.setString(4, reader.getNumberPhone());
+            }
+            else {
+                statement.setNull(4, Types.VARCHAR);
+            }
+            java.sql.Date sqlRegistrationDate = new java.sql.Date(reader.getRegistrationDate().getTime());
+            statement.setDate(5, sqlRegistrationDate);
+            statement.setBoolean(6, reader.getHadPaidRegistration());
+            java.sql.Date sqlBirthDate = new java.sql.Date(reader.getBirthDate().getTime());
+            statement.setDate(7, sqlBirthDate);
+            statement.setString(8, reader.getEmail());
+            statement.setString(9, reader.getStreetNumberAndName());
+            statement.setString(10, reader.getLocation().getName());
+            statement.setInt(11, reader.getLocation().getPostalCode());
+            statement.setInt(12, reader.getReaderNumber());
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new DataAccessException("Impossible de modifier le lecteur", exception);
+        }
+
+    }
 }
