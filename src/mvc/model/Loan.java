@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Loan {
     private Integer id;
-    private Date LoanDate;
+    private Date loanDate;
     private Integer maximumLoanDuration;
     private Date actualReturnDate;
     private Boolean hasExtended;
@@ -13,7 +13,7 @@ public class Loan {
 
     public Loan(Integer id, Date loanDate, Integer maximumLoanDuration, Date actualReturnDate, Boolean hasExtended, Reader borrower, Copy copy) {
         this.id = id;
-        this.LoanDate = loanDate;
+        this.loanDate = loanDate;
         this.maximumLoanDuration = maximumLoanDuration;
         this.actualReturnDate = actualReturnDate;
         this.hasExtended = hasExtended;
