@@ -1,6 +1,7 @@
 import dao.SingletonConnection;
 import mvc.view.MenuWindow;
 
+import javax.swing.*;
 import java.sql.Connection;
 
 public class Main {
@@ -12,6 +13,6 @@ public class Main {
             System.out.println("Erreur : " + e.getMessage());
         }
 
-        MenuWindow mw = new MenuWindow();
+       MenuWindow mv = new MenuWindow();
     }
 }

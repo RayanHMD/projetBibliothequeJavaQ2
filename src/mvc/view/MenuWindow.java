@@ -10,7 +10,6 @@ public class MenuWindow extends JFrame {
     private JMenu application, reader, book, infos;
     private JMenuItem quitter, inscription,readerList,readerUpdate, readerDelete, bookList , aide;
     private BookList bookListPanel;
-    private JLabel acceuilLabel;
     private Container frameContainer;
     private RegistrationForm formInscription;
 
@@ -20,8 +19,7 @@ public class MenuWindow extends JFrame {
         setLocationRelativeTo(null);
         frameContainer = this.getContentPane();
         frameContainer.setLayout(new BorderLayout());
-        acceuilLabel = new JLabel("Bienvenue dans l'application", SwingConstants.CENTER);
-        frameContainer.add(acceuilLabel, BorderLayout.CENTER);
+        frameContainer.add(new AnimatedLabel("Bibliothèque HÉNALLUX "), BorderLayout.CENTER);
 
         //region Barre avec les menus
         menuBar = new JMenuBar();
@@ -102,34 +100,13 @@ public class MenuWindow extends JFrame {
         });
         //endregion
 
-
-
-
-
-        //region Sous menu Aide
-        aide = new JMenuItem("Aide");
-        aide.addActionListener(e -> {
-            //new AideWindow().setVisible(true);
-        });
-        //endregion
-        //endregion
-
-        //region Ferme toute la fenêtre
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
-        //endregion
-
         setVisible(true);
     }
 
     public void setAccueil() {
         Container c = getContentPane();
         c.removeAll();
-        c.add(new JLabel("Bienvenue dans l'application", SwingConstants.CENTER), BorderLayout.CENTER);
+        c.add(new AnimatedLabel("Bienvenue dans l'application"), BorderLayout.CENTER);
         c.revalidate();
         c.repaint();
     }

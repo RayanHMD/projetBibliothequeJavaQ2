@@ -37,7 +37,7 @@ public class BookList extends JPanel {
         add(header, BorderLayout.NORTH);
 
         // table
-        String[] columns = {"Code ISBN", "Titre du livre", "Maison d'édition", "Catégorie"};
+        String[] columns = {"Code ISBN", "Titre du livre", "Maison d'édition", "Catégorie", "Nom de l'auteur", "Prénom de l'auteur"};
 
         tableModel = new DefaultTableModel(columns, 0);
 
