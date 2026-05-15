@@ -2,7 +2,7 @@ package mvc.dataAccess;
 
 import dao.SingletonConnection;
 import mvc.exception.DataAccessException;
-import mvc.model.ReaderLoanSearchResult;
+import mvc.model.LoanSearchByBookInReaderResult;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,11 +10,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class LoanSearchDBAccess implements LoanSearchDataAccess {
+public class LoanSearchByBookInReaderDBAccess implements LoanSearchByBookInReaderDataAccess {
 
     @Override
-    public ArrayList<ReaderLoanSearchResult> getLoansByReader(Integer readerNumber) throws DataAccessException {
-        ArrayList<ReaderLoanSearchResult> loans = new ArrayList<>();
+    public ArrayList<LoanSearchByBookInReaderResult> getLoansByReader(Integer readerNumber) throws DataAccessException {
+        ArrayList<LoanSearchByBookInReaderResult> loans = new ArrayList<>();
 
         String sql = "select b.title, l.loanDate, l.maximumLoanDuration, l.actualReturnDate, l.hasExtended, r.firstName, r.lastName " +
                         "FROM Reader r " +
@@ -29,7 +29,7 @@ public class LoanSearchDBAccess implements LoanSearchDataAccess {
             preparedStatement.setInt(1, readerNumber);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                ReaderLoanSearchResult loan = new ReaderLoanSearchResult(
+                LoanSearchByBookInReaderResult loan = new LoanSearchByBookInReaderResult(
                         resultSet.getString("title"),
                         resultSet.getDate("loanDate"),
                         resultSet.getInt("maximumLoanDuration"),
