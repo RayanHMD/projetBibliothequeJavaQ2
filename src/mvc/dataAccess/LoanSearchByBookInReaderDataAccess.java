@@ -3,8 +3,8 @@ package mvc.dataAccess;
 import java.util.ArrayList;
 
 import mvc.exception.DataAccessException;
-import mvc.model.LoanSearchByBookInReaderResult;
+import mvc.model.ResultLoanSearchByBookInReader;
 
 public interface LoanSearchByBookInReaderDataAccess {
-    ArrayList<LoanSearchByBookInReaderResult> getLoansByReader(Integer readerNumber) throws DataAccessException;
+    ArrayList<ResultLoanSearchByBookInReader> getLoansByReader(Integer readerNumber) throws DataAccessException;
 }

@@ -4,13 +4,13 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class BookList extends JPanel {
+public class BookListPanel extends JPanel {
     private JTable table;
     private DefaultTableModel tableModel;
     private JComboBox<String> categoryBox;
 
 
-    public BookList() {
+    public BookListPanel() {
         setLayout(new BorderLayout());
         JPanel header = new JPanel();
         header.setLayout(new BoxLayout(header, BoxLayout.Y_AXIS));

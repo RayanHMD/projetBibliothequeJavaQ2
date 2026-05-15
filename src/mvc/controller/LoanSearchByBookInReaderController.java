@@ -2,7 +2,7 @@ package mvc.controller;
 
 import mvc.business.LoanSearchByBookInReaderManager;
 import mvc.exception.DataAccessException;
-import mvc.model.LoanSearchByBookInReaderResult;
+import mvc.model.ResultLoanSearchByBookInReader;
 
 import java.util.ArrayList;
 
@@ -13,7 +13,7 @@ public class LoanSearchByBookInReaderController {
         this.loanSearchByBookInReaderManager = new LoanSearchByBookInReaderManager();
     }
 
-    public ArrayList<LoanSearchByBookInReaderResult> getLoansByReader(Integer readerNumber) throws DataAccessException {
+    public ArrayList<ResultLoanSearchByBookInReader> getLoansByReader(Integer readerNumber) throws DataAccessException {
         return loanSearchByBookInReaderManager.getLoansByReader(readerNumber);
     }
 }

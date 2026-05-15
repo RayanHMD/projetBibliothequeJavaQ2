@@ -2,7 +2,7 @@ package mvc.dataAccess;
 
 import dao.SingletonConnection;
 import mvc.exception.DataAccessException;
-import mvc.model.LoanSearchByBookInReaderResult;
+import mvc.model.ResultLoanSearchByBookInReader;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,8 +13,8 @@ import java.util.ArrayList;
 public class LoanSearchByBookInReaderDBAccess implements LoanSearchByBookInReaderDataAccess {
 
     @Override
-    public ArrayList<LoanSearchByBookInReaderResult> getLoansByReader(Integer readerNumber) throws DataAccessException {
-        ArrayList<LoanSearchByBookInReaderResult> loans = new ArrayList<>();
+    public ArrayList<ResultLoanSearchByBookInReader> getLoansByReader(Integer readerNumber) throws DataAccessException {
+        ArrayList<ResultLoanSearchByBookInReader> loans = new ArrayList<>();
 
         String sql = "select b.title, l.loanDate, l.maximumLoanDuration, l.actualReturnDate, l.hasExtended, r.firstName, r.lastName " +
                         "FROM Reader r " +
@@ -29,7 +29,7 @@ public class LoanSearchByBookInReaderDBAccess implements LoanSearchByBookInReade
             preparedStatement.setInt(1, readerNumber);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                LoanSearchByBookInReaderResult loan = new LoanSearchByBookInReaderResult(
+                ResultLoanSearchByBookInReader loan = new ResultLoanSearchByBookInReader(
                         resultSet.getString("title"),
                         resultSet.getDate("loanDate"),
                         resultSet.getInt("maximumLoanDuration"),

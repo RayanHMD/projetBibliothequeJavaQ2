@@ -20,7 +20,7 @@ public class SearchBookByCategoryDBAccess implements SearchBookByCategoryDataAcc
         "join Book b on b.category = c.label " +
         "join Production p on p.book = b.isbn " +
         "join Author a on a.idAuthor = p.author " +
-        "join Publisher pu on pu.idPublisher = b.publisher " +
+        "left join Publisher pu on pu.idPublisher = b.publisher " +
         "where c.label = ?;";
 
         try {

@@ -2,7 +2,7 @@ package mvc.model;
 
 import java.util.Date;
 
-public class LoanSearchByBookInReaderResult {
+public class ResultLoanSearchByBookInReader {
     private String bookTitle;
     private Date loanDate;
     private Integer maximumLoanDuration;
@@ -11,7 +11,7 @@ public class LoanSearchByBookInReaderResult {
     private String readerFirstName;
     private String readerLastName;
 
-    public LoanSearchByBookInReaderResult(String bookTitle, Date loanDate, Integer maximumLoanDuration, Date actualReturnDate, Boolean hasExtended, String readerFirstName, String readerLastName) {
+    public ResultLoanSearchByBookInReader(String bookTitle, Date loanDate, Integer maximumLoanDuration, Date actualReturnDate, Boolean hasExtended, String readerFirstName, String readerLastName) {
         this.bookTitle = bookTitle;
         this.loanDate = loanDate;
         this.maximumLoanDuration = maximumLoanDuration;

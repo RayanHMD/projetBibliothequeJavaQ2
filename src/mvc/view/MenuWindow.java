@@ -9,7 +9,7 @@ public class MenuWindow extends JFrame {
     private JMenuBar menuBar;
     private JMenu application, reader, book, infos;
     private JMenuItem quitter, inscription,readerList,readerUpdate, readerDelete, bookList , aide;
-    private BookList bookListPanel;
+    private BookListPanel bookListPanel;
     private JLabel acceuilLabel;
     private Container frameContainer;
     private RegistrationForm formInscription;
@@ -92,7 +92,7 @@ public class MenuWindow extends JFrame {
         bookList = new JMenuItem("Liste livres");
         book.add(bookList);
         bookList.addActionListener(e -> {
-            bookListPanel = new BookList();
+            bookListPanel = new BookListPanel();
             frameContainer = this.getContentPane();
             frameContainer.removeAll();
             frameContainer.setLayout(new BorderLayout());
