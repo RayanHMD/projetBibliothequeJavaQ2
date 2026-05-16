@@ -13,11 +13,11 @@ import java.util.Date;
 public class RegistrationForm extends JPanel{
     private JPanel formPanel, buttonPanel;
     private JTextField firstName, lastName, email, numberPhone,
-            streetNumberAndName, gender;
+            streetNumberAndName;
     private JSpinner birthDate;
     private JLabel firstNameLabel, lastNameLabel, emailLabel, numberPhoneLabel
             , streetNumberLabel, genderLabel, birthDateLabel, locationLabel, hadPaidRegistrationLabel;
-    private JComboBox nameLocation;
+    private JComboBox nameLocation, gender;
     private JCheckBox hadPaidRegistration;
     private JButton inscriptionButton, cancelButton, resetButton;
     private MenuWindow parent;
@@ -60,8 +60,12 @@ public class RegistrationForm extends JPanel{
         genderLabel = new JLabel("Genre du membre (optionnel): ");
         genderLabel.setHorizontalAlignment(SwingConstants.CENTER);
         formPanel.add(genderLabel);
-        gender = new JTextField();
+        gender = new JComboBox();
         gender.setToolTipText("Entrer le genre du membre");
+        gender.addItem("Ne pas préciser");
+        gender.addItem("M");
+        gender.addItem("F");
+        gender.addItem("X");
         formPanel.add(gender);
 
         // birth date
@@ -167,7 +171,7 @@ public class RegistrationForm extends JPanel{
             email.setText("");
             numberPhone.setText("");
             streetNumberAndName.setText("");
-            gender.setText("");
+            gender.setSelectedIndex(0);
             birthDate.setValue(new Date());
             nameLocation.setSelectedIndex(0);
             hadPaidRegistration.setSelected(false);

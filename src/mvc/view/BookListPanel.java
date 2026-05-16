@@ -1,8 +1,12 @@
 package mvc.view;
 
 import mvc.controller.BookListController;
+import mvc.controller.CategoryController;
+import mvc.controller.SearchBookByCategoryController;
 import mvc.exception.DataAccessException;
+import mvc.model.Category;
 import mvc.model.recherches.ResultBookList;
+import mvc.model.recherches.ResultSearchBookByCategory;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -14,6 +18,7 @@ public class BookListPanel extends JPanel {
     private DefaultTableModel tableModel;
     private JComboBox<String> categoryBox;
     private BookListController bookListController;
+    private CategoryController categoryController;
 
     public BookListPanel() {
         setLayout(new BorderLayout());
@@ -30,9 +35,18 @@ public class BookListPanel extends JPanel {
         categoryBox = new JComboBox<>();
 
         // add category in db
+        categoryController = new CategoryController();
         categoryBox.addItem("Toutes les catégories");
-        categoryBox.addItem("Fantasy");
-        categoryBox.addItem("Dystopie");
+
+        try{
+            ArrayList<Category> categories = categoryController.getAllCategories();
+
+            for(Category category : categories){
+                categoryBox.addItem(category.getLabel());
+            }
+        }catch(DataAccessException e){
+            JOptionPane.showMessageDialog(this, e);
+        }
 
         panelCategory.add(new Label("Catégorie : "));
         panelCategory.add(categoryBox);
@@ -46,13 +60,11 @@ public class BookListPanel extends JPanel {
 
         tableModel = new DefaultTableModel(columns, 0);
 
-
         bookListController = new BookListController();
-        // add books in db
-        try{
-            ArrayList<ResultBookList> books = bookListController.getBookList();
 
-            for (ResultBookList book : books) {
+        try {
+            ArrayList<ResultBookList> booksInitial = bookListController.getBookList();
+            for (ResultBookList book : booksInitial) {
                 tableModel.addRow(new Object[]{
                         book.getIsbn(),
                         book.getTitleBook(),
@@ -62,11 +74,48 @@ public class BookListPanel extends JPanel {
                         book.getNameCategory()
                 });
             }
-
-
-        }catch (DataAccessException e){
-            JOptionPane.showMessageDialog(this, e);
+        } catch (DataAccessException e) {
+            JOptionPane.showMessageDialog(this, "Erreur : " + e.getMessage());
         }
+        categoryBox.addActionListener(e -> {
+           tableModel.setRowCount(0);
+
+
+           try {
+               if(categoryBox.getSelectedItem().equals("Toutes les catégories")){
+                ArrayList<ResultBookList> books = bookListController.getBookList();
+                for(ResultBookList book : books){
+                    tableModel.addRow(new Object[]{
+                            book.getIsbn(),
+                            book.getTitleBook(),
+                            book.getLastNameAuthor(),
+                            book.getFirstNameAuthor(),
+                            book.getNamePublisher(),
+                            book.getNameCategory()
+                    });
+                }
+               }
+               else{
+                   SearchBookByCategoryController searchController = new SearchBookByCategoryController();
+                   ArrayList<ResultSearchBookByCategory> booksResult = searchController.getBooksByCategory(categoryBox.getSelectedItem().toString());
+                   for(ResultSearchBookByCategory book : booksResult){
+                       tableModel.addRow(new Object[]{
+                               book.getIsbn(),
+                               book.getTitleBook(),
+                               book.getLastNameAuthor(),
+                               book.getFirstNameAuthor(),
+                               book.getNamePublisher(),
+                               book.getNameCategory()
+                       });
+                   }
+               }
+
+           }catch(DataAccessException ex){
+               JOptionPane.showMessageDialog(this, e);
+           }
+        });
+
+
 
         table = new JTable(tableModel);
         add(new JScrollPane(table), BorderLayout.CENTER);
