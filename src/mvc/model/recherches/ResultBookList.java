@@ -1,4 +1,4 @@
-package mvc.model;
+package mvc.model.recherches;
 
 public class ResultBookList {
     private String isbn;

@@ -1,7 +1,7 @@
 package mvc.business;
 
-import mvc.dataAccess.ReaderDBAccess;
-import mvc.dataAccess.ReaderDataAccess;
+import mvc.dataAccess.reader.ReaderDBAccess;
+import mvc.dataAccess.reader.ReaderDataAccess;
 import mvc.exception.DataAccessException;
 import mvc.model.Reader;
 

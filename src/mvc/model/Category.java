@@ -8,4 +8,12 @@ public class Category {
         this.label = label;
         this.rentalPrice = rentalPrice;
     }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public Double getRentalPrice() {
+        return rentalPrice;
+    }
 }

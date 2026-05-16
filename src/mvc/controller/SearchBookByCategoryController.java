@@ -2,7 +2,7 @@ package mvc.controller;
 
 import mvc.business.SearchBookByCategoryManager;
 import mvc.exception.DataAccessException;
-import mvc.model.ResultSearchBookByCategory;
+import mvc.model.recherches.ResultSearchBookByCategory;
 
 import java.util.ArrayList;
 

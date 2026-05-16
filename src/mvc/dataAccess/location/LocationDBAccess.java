@@ -1,4 +1,4 @@
-package mvc.dataAccess;
+package mvc.dataAccess.location;
 
 import dao.SingletonConnection;
 import mvc.exception.DataAccessException;

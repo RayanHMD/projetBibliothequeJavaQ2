@@ -1,4 +1,4 @@
-package mvc.dataAccess;
+package mvc.dataAccess.location;
 
 import mvc.exception.DataAccessException;
 import mvc.model.Location;

@@ -1,4 +1,4 @@
-package mvc.dataAccess;
+package mvc.dataAccess.reader;
 
 import mvc.exception.DataAccessException;
 import mvc.model.Reader;

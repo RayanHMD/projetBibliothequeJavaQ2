@@ -1,9 +1,9 @@
 package mvc.business;
 
-import mvc.dataAccess.SearchBookByCategoryDBAccess;
-import mvc.dataAccess.SearchBookByCategoryDataAccess;
+import mvc.dataAccess.recherches.SearchBookByCategoryDBAccess;
+import mvc.dataAccess.recherches.SearchBookByCategoryDataAccess;
 import mvc.exception.DataAccessException;
-import mvc.model.ResultSearchBookByCategory;
+import mvc.model.recherches.ResultSearchBookByCategory;
 
 import java.util.ArrayList;
 

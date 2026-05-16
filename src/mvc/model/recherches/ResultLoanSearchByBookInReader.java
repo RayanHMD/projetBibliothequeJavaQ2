@@ -1,4 +1,4 @@
-package mvc.model;
+package mvc.model.recherches;
 
 import java.util.Date;
 

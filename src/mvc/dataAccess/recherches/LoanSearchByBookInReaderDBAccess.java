@@ -1,8 +1,8 @@
-package mvc.dataAccess;
+package mvc.dataAccess.recherches;
 
 import dao.SingletonConnection;
 import mvc.exception.DataAccessException;
-import mvc.model.ResultLoanSearchByBookInReader;
+import mvc.model.recherches.ResultLoanSearchByBookInReader;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

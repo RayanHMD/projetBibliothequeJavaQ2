@@ -1,9 +1,9 @@
 package mvc.business;
 
-import mvc.dataAccess.LoanSearchByBookInReaderDBAccess;
-import mvc.dataAccess.LoanSearchByBookInReaderDataAccess;
+import mvc.dataAccess.recherches.LoanSearchByBookInReaderDBAccess;
+import mvc.dataAccess.recherches.LoanSearchByBookInReaderDataAccess;
 import mvc.exception.DataAccessException;
-import mvc.model.ResultLoanSearchByBookInReader;
+import mvc.model.recherches.ResultLoanSearchByBookInReader;
 
 import java.util.ArrayList;
 

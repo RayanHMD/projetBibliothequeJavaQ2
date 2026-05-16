@@ -1,9 +1,9 @@
 package mvc.business;
 
-import mvc.dataAccess.BookListDBAccess;
-import mvc.dataAccess.BookListDataAccess;
+import mvc.dataAccess.bookList.BookListDBAccess;
+import mvc.dataAccess.bookList.BookListDataAccess;
 import mvc.exception.DataAccessException;
-import mvc.model.ResultBookList;
+import mvc.model.recherches.ResultBookList;
 
 import java.util.ArrayList;
 

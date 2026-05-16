@@ -1,8 +1,8 @@
-package mvc.dataAccess;
+package mvc.dataAccess.bookList;
 
 import dao.SingletonConnection;
 import mvc.exception.DataAccessException;
-import mvc.model.ResultBookList;
+import mvc.model.recherches.ResultBookList;
 import java.util.ArrayList;
 import java.sql.*;
 

@@ -2,7 +2,7 @@ package mvc.view;
 
 import mvc.controller.BookListController;
 import mvc.exception.DataAccessException;
-import mvc.model.ResultBookList;
+import mvc.model.recherches.ResultBookList;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
