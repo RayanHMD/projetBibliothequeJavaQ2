@@ -13,7 +13,7 @@ public class CategoryDBAccess implements CategoryDataAccess {
     public ArrayList<Category> getAllCategories() throws DataAccessException {
         ArrayList<Category> categories = new ArrayList<>();
 
-        String sql = "SELECT * FROM category";
+        String sql = "SELECT * FROM Category";
 
         try {
             Connection connection = SingletonConnection.getInstance();

@@ -1,7 +1,7 @@
 package mvc.business;
 
-import mvc.dataAccess.recherches.LoanSearchByBookInReaderDBAccess;
-import mvc.dataAccess.recherches.LoanSearchByBookInReaderDataAccess;
+import mvc.dataAccess.recherches.premiere.LoanSearchByBookInReaderDBAccess;
+import mvc.dataAccess.recherches.premiere.LoanSearchByBookInReaderDataAccess;
 import mvc.exception.DataAccessException;
 import mvc.model.recherches.ResultLoanSearchByBookInReader;
 

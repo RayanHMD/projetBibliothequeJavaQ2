@@ -15,7 +15,6 @@ public class ResultSearchBookByCategory {
         this.firstNameAuthor = firstNameAuthor;
         this.namePublisher = namePublisher;
         this.nameCategory = nameCategory;
-        this.lastNameAuthor = lastNameAuthor;
     }
 
     public String getIsbn() {

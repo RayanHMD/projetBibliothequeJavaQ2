@@ -1,7 +1,7 @@
 package mvc.business;
 
-import mvc.dataAccess.recherches.SearchBookByCategoryDBAccess;
-import mvc.dataAccess.recherches.SearchBookByCategoryDataAccess;
+import mvc.dataAccess.recherches.deuxieme.SearchBookByCategoryDBAccess;
+import mvc.dataAccess.recherches.deuxieme.SearchBookByCategoryDataAccess;
 import mvc.exception.DataAccessException;
 import mvc.model.recherches.ResultSearchBookByCategory;
 

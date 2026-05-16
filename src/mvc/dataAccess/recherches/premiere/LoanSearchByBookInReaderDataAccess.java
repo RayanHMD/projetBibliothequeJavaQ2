@@ -1,4 +1,4 @@
-package mvc.dataAccess.recherches;
+package mvc.dataAccess.recherches.premiere;
 
 import java.util.ArrayList;
 

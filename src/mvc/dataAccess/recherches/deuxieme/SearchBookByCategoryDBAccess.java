@@ -1,4 +1,4 @@
-package mvc.dataAccess.recherches;
+package mvc.dataAccess.recherches.deuxieme;
 
 import dao.SingletonConnection;
 import mvc.exception.DataAccessException;
@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 public class SearchBookByCategoryDBAccess implements SearchBookByCategoryDataAccess {
 
+    @Override
     public ArrayList<ResultSearchBookByCategory> getBooksByCategory(String category) throws DataAccessException {
         ArrayList<ResultSearchBookByCategory> books = new ArrayList<>();
 

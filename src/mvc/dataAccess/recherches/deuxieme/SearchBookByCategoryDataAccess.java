@@ -1,4 +1,4 @@
-package mvc.dataAccess.recherches;
+package mvc.dataAccess.recherches.deuxieme;
 
 import mvc.exception.DataAccessException;
 import mvc.model.recherches.ResultSearchBookByCategory;
