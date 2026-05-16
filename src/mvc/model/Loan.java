@@ -20,4 +20,32 @@ public class Loan {
         this.borrower = borrower;
         this.copy = copy;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Date getLoanDate() {
+        return loanDate;
+    }
+
+    public Integer getMaximumLoanDuration() {
+        return maximumLoanDuration;
+    }
+
+    public Date getActualReturnDate() {
+        return actualReturnDate;
+    }
+
+    public Boolean getHasExtended() {
+        return hasExtended;
+    }
+
+    public Reader getBorrower() {
+        return borrower;
+    }
+
+    public Copy getCopy() {
+        return copy;
+    }
 }
