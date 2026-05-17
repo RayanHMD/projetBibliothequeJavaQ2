@@ -7,9 +7,10 @@ import java.awt.event.WindowEvent;
 
 public class MenuWindow extends JFrame {
     private JMenuBar menuBar;
-    private JMenu application, reader, book, loan;
-    private JMenuItem quitter, inscription,readerList,readerUpdate, readerDelete, bookList, loanNew;
+    private JMenu application, reader, book, loan, infos;
+    private JMenuItem quitter, inscription,readerList,readerUpdate, readerDelete, bookList, loanNew, aide;
     private BookListPanel bookListPanel;
+    private ReaderListPanel readerListPanel;
     private LoanPanel loanPanel;
     private Container frameContainer;
     private RegistrationForm formInscription;
@@ -56,9 +57,11 @@ public class MenuWindow extends JFrame {
         readerList = new JMenuItem("Lister les membres");
         reader.add(readerList);
         readerList.addActionListener(e -> {
+            readerListPanel = new ReaderListPanel();
             frameContainer = this.getContentPane();
             frameContainer.removeAll();
             frameContainer.setLayout(new BorderLayout());
+            frameContainer.add(readerListPanel, BorderLayout.CENTER);
             frameContainer.revalidate();
             frameContainer.repaint();
         });
