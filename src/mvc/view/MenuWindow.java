@@ -8,7 +8,7 @@ import java.awt.event.WindowEvent;
 public class MenuWindow extends JFrame {
     private JMenuBar menuBar;
     private JMenu application, reader, book, loan;
-    private JMenuItem quitter, inscription,readerList, bookList, loanNew;
+    private JMenuItem quitter, inscription,readerList, bookList, loanNew, loanReaderIsbn;
     private Container frameContainer;
 
     public MenuWindow() {
@@ -68,6 +68,10 @@ public class MenuWindow extends JFrame {
         loanNew.addActionListener(e -> showPanel(new LoanPanel()));
         //endregion
 
+        //loan by isbn
+        loanReaderIsbn = new JMenuItem("Emprunt par lecteur");
+        loan.add(loanReaderIsbn);
+        loanReaderIsbn.addActionListener(e -> showPanel(new LoanBookByReaderPanel()));
         //region Ferme toute la fenêtre
         addWindowListener(new WindowAdapter() {
             @Override
