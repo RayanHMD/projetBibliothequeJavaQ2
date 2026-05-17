@@ -68,12 +68,14 @@ public class ReaderListPanel extends JPanel {
                         return;
                     }
 
-                    Container container = ReaderListPanel.this.getParent();
-                    container.removeAll();
-                    container.setLayout(new BorderLayout());
-                    container.add(new RegistrationForm((MenuWindow) SwingUtilities.getWindowAncestor(ReaderListPanel.this), selectedReader), BorderLayout.CENTER);
-                    container.revalidate();
-                    container.repaint();
+                    MenuWindow menuWindow = (MenuWindow) SwingUtilities.getWindowAncestor(ReaderListPanel.this);
+
+                    if (menuWindow == null) {
+                        JOptionPane.showMessageDialog(ReaderListPanel.this, "Fenêtre principale introuvable.");
+                        return;
+                    }
+
+                    menuWindow.showPanel(new RegistrationForm(menuWindow, selectedReader));
                 });
 
                 return btn;

@@ -68,7 +68,7 @@ public class ReaderManager {
         }
 
         Character gender = reader.getGender();
-        if (gender != null && gender != 'M' && gender != 'F' && gender != 'X') {
+        if (gender != null && gender != 'm' && gender != 'f' && gender != 'x') {
             throw new BusinessException("Le genre doit etre m, f ou x.");
         }
     }
