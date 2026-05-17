@@ -12,12 +12,15 @@ public class BookListDBAccess implements BookListDataAccess {
     public ArrayList<ResultBookList> getBookList() throws DataAccessException {
         ArrayList<ResultBookList> books = new ArrayList<>();
 
-        String sql = "SELECT b.isbn, b.title, a.lastName, a.firstName, pu.name, c.label\n" +
-                        "FROM Category c\n" +
-                        "JOIN Book b ON b.category = c.label\n" +
-                        "JOIN Production p ON p.book = b.isbn\n" +
-                        "JOIN Author a ON a.idAuthor = p.author\n" +
-                        "LEFT JOIN Publisher pu ON pu.idPublisher = b.publisher;";
+        String sql = "SELECT b.isbn, b.title, " +
+                        "GROUP_CONCAT(CONCAT(a.firstName, ' ', a.lastName) SEPARATOR ', ') AS authors, " +
+                        " pu.name, c.label\n" +
+                    "FROM Category c\n" +
+                    "JOIN Book b ON b.category = c.label\n" +
+                    "JOIN Production p ON p.book = b.isbn\n" +
+                    "JOIN Author a ON a.idAuthor = p.author\n" +
+                    "LEFT JOIN Publisher pu ON pu.idPublisher = b.publisher " +
+                    "GROUP BY b.isbn, b.title, pu.name, c.label";
 
         try {
             Connection connection = SingletonConnection.getInstance();
@@ -28,8 +31,7 @@ public class BookListDBAccess implements BookListDataAccess {
                 ResultBookList book = new ResultBookList(
                         resultSet.getString("isbn"),
                         resultSet.getString("title"),
-                        resultSet.getString("lastName"),
-                        resultSet.getString("firstName"),
+                        resultSet.getString("authors"),
                         resultSet.getString("name"),
                         resultSet.getString("label")
                 );

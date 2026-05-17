@@ -57,7 +57,7 @@ public class BookListPanel extends JPanel {
         add(header, BorderLayout.NORTH);
 
         // table
-        String[] columns = {"Code ISBN", "Titre du livre","Nom de l'auteur", "Prénom de l'auteur", "Maison d'édition", "Catégorie"};
+        String[] columns = {"Code ISBN", "Titre du livre", "Auteur(s)", "Maison d'édition", "Catégorie"};
 
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
@@ -109,8 +109,7 @@ public class BookListPanel extends JPanel {
         tableModel.addRow(new Object[]{
                 book.getIsbn(),
                 book.getTitleBook(),
-                book.getLastNameAuthor(),
-                book.getFirstNameAuthor(),
+                book.getAuthors(),
                 book.getNamePublisher(),
                 book.getNameCategory()
         });
@@ -120,8 +119,7 @@ public class BookListPanel extends JPanel {
         tableModel.addRow(new Object[]{
                 book.getIsbn(),
                 book.getTitleBook(),
-                book.getLastNameAuthor(),
-                book.getFirstNameAuthor(),
+                book.getAuthors(),
                 book.getNamePublisher(),
                 book.getNameCategory()
         });

@@ -16,13 +16,16 @@ public class SearchBookByCategoryDBAccess implements SearchBookByCategoryDataAcc
     public ArrayList<ResultSearchBookByCategory> getBooksByCategory(String category) throws DataAccessException {
         ArrayList<ResultSearchBookByCategory> books = new ArrayList<>();
 
-        String sql = "select b.isbn, b.title, a.lastName, a.firstName, pu.name, c.label " +
-        "from Category c " +
-        "join Book b on b.category = c.label " +
-        "join Production p on p.book = b.isbn " +
-        "join Author a on a.idAuthor = p.author " +
-        "left join Publisher pu on pu.idPublisher = b.publisher " +
-        "where c.label = ?;";
+        String sql = "SELECT b.isbn, b.title, " +
+                        "GROUP_CONCAT(CONCAT(a.firstName, ' ', a.lastName) SEPARATOR ', ') AS authors, " +
+                        "pu.name, c.label " +
+                    "FROM Category c " +
+                    "JOIN Book b on b.category = c.label " +
+                    "JOIN Production p on p.book = b.isbn " +
+                    "JOIN Author a on a.idAuthor = p.author " +
+                    "LEFT JOIN Publisher pu on pu.idPublisher = b.publisher " +
+                    "WHERE c.label = ? " +
+                    "GROUP BY b.isbn, b.title, pu.name, c.label";
 
         try {
             Connection connection = SingletonConnection.getInstance();
@@ -33,8 +36,7 @@ public class SearchBookByCategoryDBAccess implements SearchBookByCategoryDataAcc
                 ResultSearchBookByCategory book = new ResultSearchBookByCategory(
                         resultSet.getString("isbn"),
                         resultSet.getString("title"),
-                        resultSet.getString("lastName"),
-                        resultSet.getString("firstName"),
+                        resultSet.getString("authors"),
                         resultSet.getString("name"),
                         resultSet.getString("label")
                 );

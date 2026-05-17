@@ -3,16 +3,14 @@ package mvc.model.recherches;
 public class ResultSearchBookByCategory {
     private String isbn;
     private String titleBook;
-    private String lastNameAuthor;
-    private String firstNameAuthor;
+    private String authors;
     private String namePublisher;
     private String nameCategory;
 
-    public ResultSearchBookByCategory(String isbn, String titleBook, String lastNameAuthor, String firstNameAuthor, String namePublisher, String nameCategory) {
+    public ResultSearchBookByCategory(String isbn, String titleBook, String authors, String namePublisher, String nameCategory) {
         this.isbn = isbn;
         this.titleBook = titleBook;
-        this.lastNameAuthor = lastNameAuthor;
-        this.firstNameAuthor = firstNameAuthor;
+        this.authors = authors;
         this.namePublisher = namePublisher;
         this.nameCategory = nameCategory;
     }
@@ -25,12 +23,8 @@ public class ResultSearchBookByCategory {
         return titleBook;
     }
 
-    public String getLastNameAuthor() {
-        return lastNameAuthor;
-    }
-
-    public String getFirstNameAuthor() {
-        return firstNameAuthor;
+    public String getAuthors() {
+        return authors;
     }
 
     public String getNamePublisher() {
