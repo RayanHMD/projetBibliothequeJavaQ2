@@ -3,8 +3,8 @@ package mvc.view;
 
 import mvc.controller.LocationController;
 import mvc.controller.ReaderController;
-import mvc.exception.DataAccessException;
-import mvc.exception.BusinessException;
+import exception.DataAccessException;
+import exception.BusinessException;
 import mvc.model.Location;
 import mvc.model.Reader;
 

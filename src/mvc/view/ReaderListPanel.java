@@ -1,7 +1,7 @@
 package mvc.view;
 
 import mvc.controller.ReaderController;
-import mvc.exception.DataAccessException;
+import exception.DataAccessException;
 import mvc.model.Reader;
 
 import javax.swing.*;

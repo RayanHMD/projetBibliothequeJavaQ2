@@ -1,7 +1,7 @@
 package mvc.view;
 
 import mvc.controller.SearchLoansBetweenDatesController;
-import mvc.exception.DataAccessException;
+import exception.DataAccessException;
 import mvc.model.recherches.ResultSearchLoansBetweenDates;
 
 import javax.swing.*;

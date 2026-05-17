@@ -3,7 +3,7 @@ package mvc.view;
 import mvc.controller.BookListController;
 import mvc.controller.CategoryController;
 import mvc.controller.SearchBookByCategoryController;
-import mvc.exception.DataAccessException;
+import exception.DataAccessException;
 import mvc.model.Category;
 import mvc.model.recherches.ResultBookList;
 import mvc.model.recherches.ResultSearchBookByCategory;

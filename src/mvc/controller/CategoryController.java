@@ -1,7 +1,7 @@
 package mvc.controller;
 
-import mvc.business.CategoryManager;
-import mvc.exception.DataAccessException;
+import business.CategoryManager;
+import exception.DataAccessException;
 import mvc.model.Category;
 
 import java.util.ArrayList;

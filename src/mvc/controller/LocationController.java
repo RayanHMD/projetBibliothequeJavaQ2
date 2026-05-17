@@ -1,7 +1,7 @@
 package mvc.controller;
 
-import mvc.business.LocationManager;
-import mvc.exception.DataAccessException;
+import business.LocationManager;
+import exception.DataAccessException;
 import mvc.model.Location;
 
 import java.util.ArrayList;

@@ -1,8 +1,8 @@
 package mvc.controller;
 
-import mvc.business.ReaderManager;
-import mvc.exception.BusinessException;
-import mvc.exception.DataAccessException;
+import business.ReaderManager;
+import exception.BusinessException;
+import exception.DataAccessException;
 import mvc.model.Reader;
 
 import java.util.ArrayList;
