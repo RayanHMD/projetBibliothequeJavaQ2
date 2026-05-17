@@ -14,7 +14,7 @@ public class SearchLoansBetweenDatesDBAccess implements SearchLoansBetweenDatesD
     public ArrayList<ResultSearchLoansBetweenDates> getAllLoansBetweenDates(Date startDate, Date endDate) throws DataAccessException {
         ArrayList<ResultSearchLoansBetweenDates> loans = new ArrayList<>();
 
-        String sql = "SELECT l.loanDate, l.maximumLoanDuration, l.actualReturnDate, l.hasExtended, " +
+        String sql = "SELECT l.loanDate, l.maximumLoanDuration, l.actualReturnDate, " +
                             "r.lastName, r.firstName, r.email, b.isbn, b.title, ca.label " +
                      "FROM Loan l " +
                      "JOIN Reader r ON r.readerNumber = l.borrower " +
@@ -35,7 +35,6 @@ public class SearchLoansBetweenDatesDBAccess implements SearchLoansBetweenDatesD
                         resultSet.getDate("loanDate"),
                         resultSet.getInt("maximumLoanDuration"),
                         resultSet.getDate("actualReturnDate"),
-                        resultSet.getBoolean("hasExtended"),
                         resultSet.getString("lastName"),
                         resultSet.getString("firstName"),
                         resultSet.getString("email"),
@@ -49,8 +48,6 @@ public class SearchLoansBetweenDatesDBAccess implements SearchLoansBetweenDatesD
         } catch (SQLException exception) {
             throw new DataAccessException(exception.getMessage(), exception);
         }
-
-
 
         return loans;
     }

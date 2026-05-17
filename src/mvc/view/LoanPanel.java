@@ -80,7 +80,7 @@ public class LoanPanel extends JPanel {
 
         //table
         String[] columns = {"Date d'emprunt", "Durée max emprunt",
-                            "Date fin effective", "Prolongé", "Nom emprunteur", "Prénom emprunteur",
+                            "Date fin effective", "Nom emprunteur", "Prénom emprunteur",
                             "Mail emprunteur", "Code ISBN", "Titre du livre", "Catégorie"};
 
         tableModel = new DefaultTableModel(columns, 0) {
@@ -103,7 +103,6 @@ public class LoanPanel extends JPanel {
                     loan.getLoanDate(),
                     loan.getMaximumLoanDuration(),
                     loan.getActualReturnDate(),
-                    loan.getHasExtended(),
                     loan.getReaderLastName(),
                     loan.getReaderFirstName(),
                     loan.getEmail(),

@@ -8,7 +8,6 @@ public class ResultSearchLoansBetweenDates {
     private Date loanDate;
     private Integer maximumLoanDuration;
     private Date actualReturnDate;
-    private Boolean hasExtended;
     private String readerLastName;
     private String readerFirstName;
     private String email;
@@ -16,11 +15,10 @@ public class ResultSearchLoansBetweenDates {
     private String title;
     private String categoryLabel;
 
-    public ResultSearchLoansBetweenDates(Date loanDate, Integer maximumLoanDuration, Date actualReturnDate, Boolean hasExtended, String readerLastName, String readerFirstName, String email, String isbn, String title, String categoryLabel) {
+    public ResultSearchLoansBetweenDates(Date loanDate, Integer maximumLoanDuration, Date actualReturnDate, String readerLastName, String readerFirstName, String email, String isbn, String title, String categoryLabel) {
         this.loanDate = loanDate;
         this.maximumLoanDuration = maximumLoanDuration;
         this.actualReturnDate = actualReturnDate;
-        this.hasExtended = hasExtended;
         this.readerLastName = readerLastName;
         this.readerFirstName = readerFirstName;
         this.email = email;
@@ -39,10 +37,6 @@ public class ResultSearchLoansBetweenDates {
 
     public Date getActualReturnDate() {
         return actualReturnDate;
-    }
-
-    public Boolean getHasExtended() {
-        return hasExtended;
     }
 
     public String getReaderFirstName() {

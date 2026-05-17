@@ -7,16 +7,14 @@ public class ResultLoanSearchByBookInReader {
     private Date loanDate;
     private Integer maximumLoanDuration;
     private Date actualReturnDate;
-    private Boolean hasExtended;
     private String readerFirstName;
     private String readerLastName;
 
-    public ResultLoanSearchByBookInReader(String bookTitle, Date loanDate, Integer maximumLoanDuration, Date actualReturnDate, Boolean hasExtended, String readerFirstName, String readerLastName) {
+    public ResultLoanSearchByBookInReader(String bookTitle, Date loanDate, Integer maximumLoanDuration, Date actualReturnDate, String readerFirstName, String readerLastName) {
         this.bookTitle = bookTitle;
         this.loanDate = loanDate;
         this.maximumLoanDuration = maximumLoanDuration;
         this.actualReturnDate = actualReturnDate;
-        this.hasExtended = hasExtended;
         this.readerFirstName = readerFirstName;
         this.readerLastName = readerLastName;
     }
@@ -39,10 +37,6 @@ public class ResultLoanSearchByBookInReader {
 
     public String getReaderFirstName() {
         return readerFirstName;
-    }
-
-    public Boolean getHasExtended() {
-        return hasExtended;
     }
 
     public String getReaderLastName() {

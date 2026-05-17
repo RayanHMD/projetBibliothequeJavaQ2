@@ -16,7 +16,7 @@ public class LoanSearchByBookInReaderDBAccess implements LoanSearchByBookInReade
     public ArrayList<ResultLoanSearchByBookInReader> getLoansByReader(Integer readerNumber) throws DataAccessException {
         ArrayList<ResultLoanSearchByBookInReader> loans = new ArrayList<>();
 
-        String sql = "select b.title, l.loanDate, l.maximumLoanDuration, l.actualReturnDate, l.hasExtended, r.firstName, r.lastName " +
+        String sql = "select b.title, l.loanDate, l.maximumLoanDuration, l.actualReturnDate, r.firstName, r.lastName " +
                         "FROM Reader r " +
                         "JOIN Loan l on r.readerNumber = l.borrower " +
                         "JOIN Copy c on c.idCopy = l.copy " +
@@ -34,7 +34,6 @@ public class LoanSearchByBookInReaderDBAccess implements LoanSearchByBookInReade
                         resultSet.getDate("loanDate"),
                         resultSet.getInt("maximumLoanDuration"),
                         resultSet.getDate("actualReturnDate"),
-                        resultSet.getBoolean("hasExtended"),
                         resultSet.getString("firstName"),
                         resultSet.getString("lastName")
                 );
