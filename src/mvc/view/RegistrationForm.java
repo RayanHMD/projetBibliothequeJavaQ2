@@ -2,8 +2,10 @@ package mvc.view;
 
 
 import mvc.controller.LocationController;
+import mvc.controller.ReaderController;
 import mvc.exception.DataAccessException;
 import mvc.model.Location;
+import mvc.model.Reader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,20 +14,24 @@ import java.util.Date;
 
 public class RegistrationForm extends JPanel{
     private JPanel formPanel, buttonPanel;
-    private JTextField firstName, lastName, email, numberPhone,
-            streetNumberAndName;
+    private JTextField firstName, lastName, email, numberPhone, streetNumberAndName;
     private JSpinner birthDate;
-    private JLabel firstNameLabel, lastNameLabel, emailLabel, numberPhoneLabel
-            , streetNumberLabel, genderLabel, birthDateLabel, locationLabel, hadPaidRegistrationLabel;
-    private JComboBox nameLocation, gender;
+    private JLabel firstNameLabel, lastNameLabel, emailLabel, numberPhoneLabel,
+            streetNumberLabel, genderLabel, birthDateLabel, locationLabel, hadPaidRegistrationLabel;
+    private JComboBox<Object>nameLocation;
+    private JComboBox<String>gender;
     private JCheckBox hadPaidRegistration;
     private JButton inscriptionButton, cancelButton, resetButton;
+
     private MenuWindow parent;
     private LocationController locationController;
+    private ReaderController readerController;
+    private Reader readerToUpdate;
 
     public RegistrationForm(MenuWindow parent){
         this.parent = parent;
-        locationController = new LocationController();
+        this.locationController = new LocationController();
+        this.readerController = new ReaderController();
 
         setLayout(new BorderLayout());
 
@@ -37,8 +43,6 @@ public class RegistrationForm extends JPanel{
         // Form
         formPanel = new JPanel();
         formPanel.setLayout(new GridLayout(0,2,5,5));
-
-
 
         // FirstName
         firstNameLabel = new JLabel("Prénom : ");
@@ -63,13 +67,13 @@ public class RegistrationForm extends JPanel{
         gender = new JComboBox();
         gender.setToolTipText("Entrer le genre du membre");
         gender.addItem("Ne pas préciser");
-        gender.addItem("M");
-        gender.addItem("F");
-        gender.addItem("X");
+        gender.addItem("m");
+        gender.addItem("f");
+        gender.addItem("x");
         formPanel.add(gender);
 
         // birth date
-        birthDateLabel = new JLabel("Date d'anniversaire du membre: ");
+        birthDateLabel = new JLabel("Date de naissance du membre: ");
         birthDateLabel.setHorizontalAlignment(SwingConstants.CENTER);
         formPanel.add(birthDateLabel);
 
