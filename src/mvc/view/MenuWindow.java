@@ -7,9 +7,11 @@ import java.awt.event.WindowEvent;
 
 public class MenuWindow extends JFrame {
     private JMenuBar menuBar;
-    private JMenu application, reader, book, infos;
-    private JMenuItem quitter, inscription,readerList,readerUpdate, readerDelete, bookList , aide;
+    private JMenu application, reader, book, loan, infos;
+    private JMenuItem quitter, inscription,readerList,readerUpdate, readerDelete, bookList, loanNew, aide;
     private BookListPanel bookListPanel;
+    private ReaderListPanel readerListPanel;
+    private LoanPanel loanPanel;
     private Container frameContainer;
     private RegistrationForm formInscription;
 
@@ -55,9 +57,11 @@ public class MenuWindow extends JFrame {
         readerList = new JMenuItem("Lister les membres");
         reader.add(readerList);
         readerList.addActionListener(e -> {
+            readerListPanel = new ReaderListPanel();
             frameContainer = this.getContentPane();
             frameContainer.removeAll();
             frameContainer.setLayout(new BorderLayout());
+            frameContainer.add(readerListPanel, BorderLayout.CENTER);
             frameContainer.revalidate();
             frameContainer.repaint();
         });
@@ -102,15 +106,24 @@ public class MenuWindow extends JFrame {
 
 
 
+        //region loan
+        loan = new JMenu("Emprunts");
+        loan.setMnemonic('E');
+        menuBar.add(loan);
 
-
-        //region Sous menu Aide
-        aide = new JMenuItem("Aide");
-        aide.addActionListener(e -> {
-            //new AideWindow().setVisible(true);
+        // new loan
+        loanNew = new JMenuItem("Lister les emprunts");
+        loan.add(loanNew);
+        loanNew.addActionListener(e -> {
+            loanPanel = new LoanPanel();
+            frameContainer = this.getContentPane();
+            frameContainer.removeAll();
+            frameContainer.setLayout(new BorderLayout());
+            frameContainer.add(loanPanel, BorderLayout.CENTER);
+            frameContainer.revalidate();
+            frameContainer.repaint();
         });
-        //endregion
-        //endregion
+
 
         //region Ferme toute la fenêtre
         addWindowListener(new WindowAdapter() {

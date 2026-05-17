@@ -16,10 +16,9 @@ public class RegistrationForm extends JPanel{
     private JPanel formPanel, buttonPanel;
     private JTextField firstName, lastName, email, numberPhone, streetNumberAndName;
     private JSpinner birthDate;
-    private JLabel firstNameLabel, lastNameLabel, emailLabel, numberPhoneLabel,
-            streetNumberLabel, genderLabel, birthDateLabel, locationLabel, hadPaidRegistrationLabel;
-    private JComboBox<Object>nameLocation;
-    private JComboBox<String>gender;
+    private JLabel firstNameLabel, lastNameLabel, emailLabel, numberPhoneLabel
+            , streetNumberLabel, genderLabel, birthDateLabel, locationLabel, hadPaidRegistrationLabel;
+    private JComboBox nameLocation, gender;
     private JCheckBox hadPaidRegistration;
     private JButton inscriptionButton, cancelButton, resetButton;
 
@@ -60,7 +59,7 @@ public class RegistrationForm extends JPanel{
         lastName.setToolTipText("Entrer le nom de famille du membre");
         formPanel.add(lastName);
 
-        // gender
+        // Gender
         genderLabel = new JLabel("Genre du membre (optionnel): ");
         genderLabel.setHorizontalAlignment(SwingConstants.CENTER);
         formPanel.add(genderLabel);
@@ -85,7 +84,6 @@ public class RegistrationForm extends JPanel{
         formPanel.add(birthDate);
 
         // email
-
         emailLabel = new JLabel("Email du membre: ");
         emailLabel.setHorizontalAlignment(SwingConstants.CENTER);
         formPanel.add(emailLabel);
@@ -125,7 +123,7 @@ public class RegistrationForm extends JPanel{
                 nameLocation.addItem(loc);
             }
 
-        }catch(DataAccessException e){
+        } catch(DataAccessException e){
             JOptionPane.showMessageDialog(this, e.getMessage(), "Erreur Localité", JOptionPane.ERROR_MESSAGE);
         }
 
@@ -186,6 +184,13 @@ public class RegistrationForm extends JPanel{
 
     }
 
+    public RegistrationForm(MenuWindow parent, Reader readerToUpdate) {
+        this(parent);
+        fillForm(readerToUpdate);
+        inscriptionButton.setText("Modifier");
+    }
+
+
     private String checkForm() {
 
         if (firstName.getText().trim().isEmpty()) {
@@ -226,4 +231,42 @@ public class RegistrationForm extends JPanel{
         return null;
     }
 
+    private void fillForm(Reader reader) {
+        firstName.setText(reader.getFirstName());
+        lastName.setText(reader.getLastName());
+        email.setText(reader.getEmail());
+        streetNumberAndName.setText(reader.getStreetNumberAndName());
+        birthDate.setValue(reader.getBirthDate());
+
+        if(reader.getNumberPhone() != null) {
+            numberPhone.setText(reader.getNumberPhone());
+        }
+
+        if(reader.getGender() == null) {
+            gender.setSelectedIndex(0);
+        }
+        else {
+            gender.setSelectedItem(reader.getGender().toString());
+        }
+
+        int index = 0;
+        boolean locationFound = false;
+
+        while(index < nameLocation.getItemCount() && !locationFound) {
+            Object item = nameLocation.getItemAt(index);
+
+            if(item instanceof Location) {
+                Location location = (Location) item;
+
+                if(location.getName().equals(reader.getLocation().getName()) &&
+                location.getPostalCode().equals(reader.getLocation().getPostalCode())) {
+                    nameLocation.setSelectedIndex(index);
+                    locationFound = true;
+                }
+            }
+            index++;
+        }
+
+        hadPaidRegistration.setSelected(reader.getHadPaidRegistration());
+    }
 }
