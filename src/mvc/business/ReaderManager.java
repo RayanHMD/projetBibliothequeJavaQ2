@@ -36,17 +36,32 @@ public class ReaderManager {
 
     private void validateReader(Reader reader) throws BusinessException {
         if(reader == null) {
-            throw new BusinessException("Le lecteur ne peut pas etre vide.");
+            throw new BusinessException("Le lecteur ne peut pas être vide.");
         }
 
-        if(reader.getFirstName() == null || reader.getFirstName().trim().isEmpty()) {
-            throw new BusinessException("Le prenom est obligatoire.");
-        }
         if(reader.getLastName() == null || reader.getLastName().trim().isEmpty()) {
             throw new BusinessException("Le nom est obligatoire.");
         }
+
+        if(reader.getFirstName() == null || reader.getFirstName().trim().isEmpty()) {
+            throw new BusinessException("Le prénom est obligatoire.");
+        }
+
+        Character gender = reader.getGender();
+        if (gender != null && gender != 'm' && gender != 'f' && gender != 'x') {
+            throw new BusinessException("Le genre doit être m, f ou x.");
+        }
+
+        if(reader.getStreetNumberAndName() == null || reader.getStreetNumberAndName().trim().isEmpty()) {
+            throw new BusinessException("La rue et le numéro sont obligatoires.");
+        }
+
         if(reader.getEmail() == null || reader.getEmail().trim().isEmpty()) {
             throw new BusinessException("L'email est obligatoire.");
+        }
+
+        if(reader.getHadPaidRegistration() == null) {
+            throw new BusinessException("Le paiement de l'inscription doit etre précisé.");
         }
 
         String regex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
@@ -63,13 +78,14 @@ public class ReaderManager {
             throw new BusinessException("La date d'inscription est invalide.");
         }
 
-        if(reader.getLocation() == null) {
+        if(reader.getLocation() == null
+                || reader.getLocation().getName() == null
+                || reader.getLocation().getName().trim().isEmpty()
+                || reader.getLocation().getPostalCode() == null
+                || reader.getLocation().getPostalCode() <= 0) {
             throw new BusinessException("La localite est obligatoire.");
         }
 
-        Character gender = reader.getGender();
-        if (gender != null && gender != 'm' && gender != 'f' && gender != 'x') {
-            throw new BusinessException("Le genre doit etre m, f ou x.");
-        }
+
     }
 }
