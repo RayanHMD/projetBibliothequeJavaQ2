@@ -59,7 +59,12 @@ public class BookListPanel extends JPanel {
         // table
         String[] columns = {"Code ISBN", "Titre du livre","Nom de l'auteur", "Prénom de l'auteur", "Maison d'édition", "Catégorie"};
 
-        tableModel = new DefaultTableModel(columns, 0);
+        tableModel = new DefaultTableModel(columns, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
 
         bookListController = new BookListController();
 
