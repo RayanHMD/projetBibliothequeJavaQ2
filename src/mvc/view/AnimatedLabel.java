@@ -22,6 +22,7 @@ public class AnimatedLabel extends JPanel implements Runnable{
         thread.start();
     }
 
+    @Override
     public void run(){
         while(running){
 
@@ -50,6 +51,8 @@ public class AnimatedLabel extends JPanel implements Runnable{
         }
 
     }
+
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 

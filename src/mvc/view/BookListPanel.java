@@ -19,6 +19,7 @@ public class BookListPanel extends JPanel {
     private JComboBox<String> categoryBox;
     private BookListController bookListController;
     private CategoryController categoryController;
+    private SearchBookByCategoryController searchBookByCategoryController;
 
     public BookListPanel() {
         setLayout(new BorderLayout());
@@ -45,10 +46,10 @@ public class BookListPanel extends JPanel {
                 categoryBox.addItem(category.getLabel());
             }
         }catch(DataAccessException e){
-            JOptionPane.showMessageDialog(this, e);
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
         }
 
-        panelCategory.add(new Label("Catégorie : "));
+        panelCategory.add(new JLabel("Catégorie : "));
         panelCategory.add(categoryBox);
 
         header.add(title);
@@ -65,53 +66,31 @@ public class BookListPanel extends JPanel {
         try {
             ArrayList<ResultBookList> booksInitial = bookListController.getBookList();
             for (ResultBookList book : booksInitial) {
-                tableModel.addRow(new Object[]{
-                        book.getIsbn(),
-                        book.getTitleBook(),
-                        book.getLastNameAuthor(),
-                        book.getFirstNameAuthor(),
-                        book.getNamePublisher(),
-                        book.getNameCategory()
-                });
+                addBookRow(book);
             }
         } catch (DataAccessException e) {
             JOptionPane.showMessageDialog(this, "Erreur : " + e.getMessage());
         }
+
+        searchBookByCategoryController = new SearchBookByCategoryController();
         categoryBox.addActionListener(e -> {
            tableModel.setRowCount(0);
-
-
            try {
-               if(categoryBox.getSelectedItem().equals("Toutes les catégories")){
+               if ("Toutes les catégories".equals(categoryBox.getSelectedItem())) {
                 ArrayList<ResultBookList> books = bookListController.getBookList();
                 for(ResultBookList book : books){
-                    tableModel.addRow(new Object[]{
-                            book.getIsbn(),
-                            book.getTitleBook(),
-                            book.getLastNameAuthor(),
-                            book.getFirstNameAuthor(),
-                            book.getNamePublisher(),
-                            book.getNameCategory()
-                    });
+                    addBookRow(book);
                 }
                }
                else{
-                   SearchBookByCategoryController searchController = new SearchBookByCategoryController();
-                   ArrayList<ResultSearchBookByCategory> booksResult = searchController.getBooksByCategory(categoryBox.getSelectedItem().toString());
+                   ArrayList<ResultSearchBookByCategory> booksResult = searchBookByCategoryController.getBooksByCategory(categoryBox.getSelectedItem().toString());
                    for(ResultSearchBookByCategory book : booksResult){
-                       tableModel.addRow(new Object[]{
-                               book.getIsbn(),
-                               book.getTitleBook(),
-                               book.getLastNameAuthor(),
-                               book.getFirstNameAuthor(),
-                               book.getNamePublisher(),
-                               book.getNameCategory()
-                       });
+                       addBookRow(book);
                    }
                }
 
-           }catch(DataAccessException ex){
-               JOptionPane.showMessageDialog(this, e);
+           }catch(DataAccessException exception){
+               JOptionPane.showMessageDialog(this, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
            }
         });
 
@@ -119,5 +98,27 @@ public class BookListPanel extends JPanel {
 
         table = new JTable(tableModel);
         add(new JScrollPane(table), BorderLayout.CENTER);
+    }
+
+    private void addBookRow(ResultBookList book) {
+        tableModel.addRow(new Object[]{
+                book.getIsbn(),
+                book.getTitleBook(),
+                book.getLastNameAuthor(),
+                book.getFirstNameAuthor(),
+                book.getNamePublisher(),
+                book.getNameCategory()
+        });
+    }
+
+    private void addBookRow(ResultSearchBookByCategory book) {
+        tableModel.addRow(new Object[]{
+                book.getIsbn(),
+                book.getTitleBook(),
+                book.getLastNameAuthor(),
+                book.getFirstNameAuthor(),
+                book.getNamePublisher(),
+                book.getNameCategory()
+        });
     }
 }

@@ -7,13 +7,9 @@ import java.awt.event.WindowEvent;
 
 public class MenuWindow extends JFrame {
     private JMenuBar menuBar;
-    private JMenu application, reader, book, loan, infos;
-    private JMenuItem quitter, inscription,readerList,readerUpdate, readerDelete, bookList, loanNew, aide;
-    private BookListPanel bookListPanel;
-    private ReaderListPanel readerListPanel;
-    private LoanPanel loanPanel;
+    private JMenu application, reader, book, loan;
+    private JMenuItem quitter, inscription,readerList, bookList, loanNew;
     private Container frameContainer;
-    private RegistrationForm formInscription;
 
     public MenuWindow() {
         super("First Window");
@@ -38,53 +34,18 @@ public class MenuWindow extends JFrame {
         quitter.addActionListener(exitListener);
         //endregion
 
-        //region reader
+        //region Reader
         reader = new JMenu("Utilisateur");
         reader.setMnemonic('U');
         menuBar.add(reader);
         inscription = new JMenuItem("Inscription");
         reader.add(inscription);
-        inscription.addActionListener(e -> {
-            formInscription = new RegistrationForm(this);
-            frameContainer = this.getContentPane();
-            frameContainer.removeAll();
-            frameContainer.setLayout(new BorderLayout());
-            frameContainer.add(formInscription, BorderLayout.CENTER);
-            frameContainer.revalidate();
-            frameContainer.repaint();
-        });
+        inscription.addActionListener(e -> showPanel(new RegistrationForm(this)));
 
         readerList = new JMenuItem("Lister les membres");
         reader.add(readerList);
-        readerList.addActionListener(e -> {
-            readerListPanel = new ReaderListPanel();
-            frameContainer = this.getContentPane();
-            frameContainer.removeAll();
-            frameContainer.setLayout(new BorderLayout());
-            frameContainer.add(readerListPanel, BorderLayout.CENTER);
-            frameContainer.revalidate();
-            frameContainer.repaint();
-        });
+        readerList.addActionListener(e -> showReaderList());
 
-        readerUpdate = new JMenuItem("Modifier un membre");
-        reader.add(readerUpdate);
-        readerUpdate.addActionListener(e -> {
-            frameContainer = this.getContentPane();
-            frameContainer.removeAll();
-            frameContainer.setLayout(new BorderLayout());
-            frameContainer.revalidate();
-            frameContainer.repaint();
-        });
-
-        readerDelete = new JMenuItem("Supprimer un membre");
-        reader.add(readerDelete);
-        readerDelete.addActionListener(e -> {
-            frameContainer = this.getContentPane();
-            frameContainer.removeAll();
-            frameContainer.setLayout(new BorderLayout());
-            frameContainer.revalidate();
-            frameContainer.repaint();
-        });
         //endregion
 
         //region Book
@@ -93,18 +54,8 @@ public class MenuWindow extends JFrame {
         menuBar.add(book);
         bookList = new JMenuItem("Liste livres");
         book.add(bookList);
-        bookList.addActionListener(e -> {
-            bookListPanel = new BookListPanel();
-            frameContainer = this.getContentPane();
-            frameContainer.removeAll();
-            frameContainer.setLayout(new BorderLayout());
-            frameContainer.add(bookListPanel, BorderLayout.CENTER);
-            frameContainer.revalidate();
-            frameContainer.repaint();
-        });
+        bookList.addActionListener(e -> showPanel(new BookListPanel()));
         //endregion
-
-
 
         //region loan
         loan = new JMenu("Emprunts");
@@ -114,16 +65,8 @@ public class MenuWindow extends JFrame {
         // new loan
         loanNew = new JMenuItem("Lister les emprunts");
         loan.add(loanNew);
-        loanNew.addActionListener(e -> {
-            loanPanel = new LoanPanel();
-            frameContainer = this.getContentPane();
-            frameContainer.removeAll();
-            frameContainer.setLayout(new BorderLayout());
-            frameContainer.add(loanPanel, BorderLayout.CENTER);
-            frameContainer.revalidate();
-            frameContainer.repaint();
-        });
-
+        loanNew.addActionListener(e -> showPanel(new LoanPanel()));
+        //endregion
 
         //region Ferme toute la fenêtre
         addWindowListener(new WindowAdapter() {
@@ -143,5 +86,18 @@ public class MenuWindow extends JFrame {
         c.add(new AnimatedLabel("Bibliothèque HÉNALLUX"), BorderLayout.CENTER);
         c.revalidate();
         c.repaint();
+    }
+
+    public void showPanel(JPanel panel) {
+        Container c = getContentPane();
+        c.removeAll();
+        c.setLayout(new BorderLayout());
+        c.add(panel, BorderLayout.CENTER);
+        c.revalidate();
+        c.repaint();
+    }
+
+    public void showReaderList() {
+        showPanel(new ReaderListPanel());
     }
 }

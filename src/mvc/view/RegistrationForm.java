@@ -4,6 +4,7 @@ package mvc.view;
 import mvc.controller.LocationController;
 import mvc.controller.ReaderController;
 import mvc.exception.DataAccessException;
+import mvc.exception.BusinessException;
 import mvc.model.Location;
 import mvc.model.Reader;
 
@@ -16,9 +17,10 @@ public class RegistrationForm extends JPanel{
     private JPanel formPanel, buttonPanel;
     private JTextField firstName, lastName, email, numberPhone, streetNumberAndName;
     private JSpinner birthDate;
-    private JLabel firstNameLabel, lastNameLabel, emailLabel, numberPhoneLabel
-            , streetNumberLabel, genderLabel, birthDateLabel, locationLabel, hadPaidRegistrationLabel;
-    private JComboBox nameLocation, gender;
+    private JLabel title, firstNameLabel, lastNameLabel, emailLabel, numberPhoneLabel,
+            streetNumberLabel, genderLabel, birthDateLabel, locationLabel, hadPaidRegistrationLabel;
+    private JComboBox<Object> nameLocation;
+    private JComboBox<String> gender;
     private JCheckBox hadPaidRegistration;
     private JButton inscriptionButton, cancelButton, resetButton;
 
@@ -35,7 +37,7 @@ public class RegistrationForm extends JPanel{
         setLayout(new BorderLayout());
 
         // Title
-        JLabel title = new JLabel("Formulaire d'inscription", SwingConstants.CENTER);
+        title = new JLabel("Formulaire d'inscription", SwingConstants.CENTER);
         title.setFont(title.getFont().deriveFont(20f));
         add(title, BorderLayout.NORTH);
 
@@ -63,7 +65,7 @@ public class RegistrationForm extends JPanel{
         genderLabel = new JLabel("Genre du membre (optionnel): ");
         genderLabel.setHorizontalAlignment(SwingConstants.CENTER);
         formPanel.add(genderLabel);
-        gender = new JComboBox();
+        gender = new JComboBox<>();
         gender.setToolTipText("Entrer le genre du membre");
         gender.addItem("Ne pas préciser");
         gender.addItem("m");
@@ -114,7 +116,7 @@ public class RegistrationForm extends JPanel{
         locationLabel = new JLabel("Localité: ");
         locationLabel.setHorizontalAlignment(SwingConstants.CENTER);
         formPanel.add(locationLabel);
-        nameLocation = new JComboBox();
+        nameLocation = new JComboBox<>();
         nameLocation.addItem("Choisir une localité");
 
         try{
@@ -147,21 +149,42 @@ public class RegistrationForm extends JPanel{
         cancelButton = new JButton("Annuler l'inscription");
         buttonPanel.add(cancelButton);
         cancelButton.addActionListener(e -> {
-            parent.setAccueil();
+            if(readerToUpdate == null){
+                this.parent.setAccueil();
+            }
+            else {
+                this.parent.showReaderList();
+            }
         });
 
         // button inscription
         inscriptionButton = new JButton("Inscription");
         buttonPanel.add(inscriptionButton);
         inscriptionButton.addActionListener(e -> {
+            String error = checkForm();
 
-            if(checkForm() != null){
-                JOptionPane.showMessageDialog(this, checkForm(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            if(error != null){
+                JOptionPane.showMessageDialog(this, error, "Erreur", JOptionPane.ERROR_MESSAGE);
             }
             else{
-                JOptionPane.showMessageDialog(this, "Inscription réussie !");
-            }
+                try {
+                    Reader reader = createReaderFromForm();
 
+                    if(readerToUpdate == null) {
+                        readerController.addReader(reader);
+                        JOptionPane.showMessageDialog(this, "Inscription réussie !");
+                        this.parent.setAccueil();
+                    }
+                    else {
+                        readerController.updateReader(reader);
+                        JOptionPane.showMessageDialog(this, "Lecteur modifié !");
+                        this.parent.showReaderList();
+                    }
+
+                } catch (DataAccessException | BusinessException exception) {
+                    JOptionPane.showMessageDialog(this, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         });
 
         // reset button
@@ -186,8 +209,12 @@ public class RegistrationForm extends JPanel{
 
     public RegistrationForm(MenuWindow parent, Reader readerToUpdate) {
         this(parent);
+        this.readerToUpdate = readerToUpdate;
         fillForm(readerToUpdate);
         inscriptionButton.setText("Modifier");
+        resetButton.setEnabled(false);
+        cancelButton.setText("Annuler la modification");
+        title.setText("Modification d'un lecteur");
     }
 
 
@@ -203,7 +230,7 @@ public class RegistrationForm extends JPanel{
 
         Date selectedDate = (Date) birthDate.getValue();
         if(selectedDate.after(new Date())){
-            return "Veuillez entrer une date corret, elle ne peut pas être dans le futur";
+            return "Veuillez entrer une date correcte, elle ne peut pas être dans le futur";
         }
 
         if (email.getText().trim().isEmpty()) {
@@ -268,5 +295,49 @@ public class RegistrationForm extends JPanel{
         }
 
         hadPaidRegistration.setSelected(reader.getHadPaidRegistration());
+    }
+
+    private Reader createReaderFromForm() {
+        Integer readerNumber = null;
+
+        if(readerToUpdate != null) {
+            readerNumber = readerToUpdate.getReaderNumber();
+        }
+
+        Character genderValue = null;
+        if(gender.getSelectedIndex() != 0) {
+            genderValue = gender.getSelectedItem().toString().charAt(0);
+        }
+
+        String phoneValue = null;
+        if(!numberPhone.getText().trim().isEmpty()) {
+            phoneValue = numberPhone.getText().trim();
+        }
+
+        Location selectedLocation = (Location) nameLocation.getSelectedItem();
+
+        Date registrationDate;
+
+        if(readerToUpdate == null) {
+            registrationDate = new Date();
+        }
+        else {
+            registrationDate = readerToUpdate.getRegistrationDate();
+        }
+
+        return new Reader(
+                readerNumber,
+                lastName.getText().trim(),
+                firstName.getText().trim(),
+                genderValue,
+                streetNumberAndName.getText().trim(),
+                phoneValue,
+                registrationDate,
+                hadPaidRegistration.isSelected(),
+                (Date) birthDate.getValue(),
+                email.getText().trim(),
+                selectedLocation.getName(),
+                selectedLocation.getPostalCode()
+        );
     }
 }

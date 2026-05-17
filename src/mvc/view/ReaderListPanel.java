@@ -147,30 +147,20 @@ public class ReaderListPanel extends JPanel {
     }
 
     private void deleteReaderByNumber(Integer readerNumber) {
-        try {
-            ArrayList<Reader> readers = readerController.getAllReaders();
-            Reader selectedReader = null;
-            int index = 0;
+        Reader selectedReader = findReaderByNumber(readerNumber);
 
-            while(index < readers.size() && selectedReader == null) {
-                Reader reader = readers.get(index);
-                if (reader.getReaderNumber().equals(readerNumber)) {
-                    selectedReader = reader;
-                }
-                index++;
-            }
-
-            if(selectedReader == null) {
-                JOptionPane.showMessageDialog(this, "Lecteur introuvable.");
-            }
-            else {
+        if(selectedReader == null) {
+            JOptionPane.showMessageDialog(this, "Lecteur introuvable.");
+        }
+        else {
+            try {
                 readerController.deleteReader(selectedReader);
                 loadReaders();
 
-                JOptionPane.showMessageDialog(this, "Lecteur supprime.");
+                JOptionPane.showMessageDialog(this, "Lecteur supprimé.");
+            } catch (DataAccessException exception) {
+                JOptionPane.showMessageDialog(this, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (DataAccessException exception) {
-            JOptionPane.showMessageDialog(this, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
         }
     }
 

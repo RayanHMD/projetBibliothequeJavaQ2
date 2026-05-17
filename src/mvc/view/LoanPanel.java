@@ -52,9 +52,21 @@ public class LoanPanel extends JPanel {
             try{
                 Date start = new Date(((java.util.Date) startDate.getValue()).getTime());
                 Date end = new Date(((java.util.Date) endDate.getValue()).getTime());
-                loadLoans(controller.getAllLoansBetweenDates(start,end));
-            }catch(DataAccessException exe){
-                JOptionPane.showMessageDialog(this, exe);
+
+                if(start.after(end)){
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "La date de début doit être avant la date de fin.",
+                            "Erreur",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                }
+                else {
+                    loadLoans(controller.getAllLoansBetweenDates(start,end));
+                }
+
+            }catch(DataAccessException exception){
+                JOptionPane.showMessageDialog(this, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
 
             }
         });
