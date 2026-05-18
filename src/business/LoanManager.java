@@ -12,7 +12,7 @@ public class LoanManager {
 
     private void validateLoanForLateCalculation(Loan loan) throws BusinessException {
         if (loan == null) {
-            throw new BusinessException("L'emprunt ne peut pas etre vide.");
+            throw new BusinessException("L'emprunt ne peut pas être vide.");
         }
 
         if (loan.getLoanDate() == null) {
@@ -20,7 +20,7 @@ public class LoanManager {
         }
 
         if (loan.getMaximumLoanDuration() == null || loan.getMaximumLoanDuration() <= 0) {
-            throw new BusinessException("La duree maximale d'emprunt doit etre positive.");
+            throw new BusinessException("La durée maximale d'emprunt doit être positive.");
         }
     }
 
@@ -40,7 +40,7 @@ public class LoanManager {
         validateLoanForLateCalculation(loan);
 
         if (referenceDate == null) {
-            throw new BusinessException("La date de reference est obligatoire.");
+            throw new BusinessException("La date de référence est obligatoire.");
         }
 
         Date actualReturnDate;

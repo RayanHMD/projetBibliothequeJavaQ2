@@ -50,7 +50,7 @@ public class RegistrationForm extends JPanel{
         firstNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
         formPanel.add(firstNameLabel);
         firstName = new JTextField();
-        firstName.setToolTipText("Entrer le prénom du membre");
+        firstName.setToolTipText("Entrer le prénom du lecteur");
         formPanel.add(firstName);
 
         // LastName
@@ -58,15 +58,15 @@ public class RegistrationForm extends JPanel{
         lastNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
         formPanel.add(lastNameLabel);
         lastName = new JTextField();
-        lastName.setToolTipText("Entrer le nom de famille du membre");
+        lastName.setToolTipText("Entrer le nom de famille du lecteur");
         formPanel.add(lastName);
 
         // Gender
-        genderLabel = new JLabel("Genre du membre (optionnel): ");
+        genderLabel = new JLabel("Genre du lecteur (optionnel): ");
         genderLabel.setHorizontalAlignment(SwingConstants.CENTER);
         formPanel.add(genderLabel);
         gender = new JComboBox<>();
-        gender.setToolTipText("Entrer le genre du membre");
+        gender.setToolTipText("Entrer le genre du lecteur");
         gender.addItem("Ne pas préciser");
         gender.addItem("m");
         gender.addItem("f");
@@ -74,7 +74,7 @@ public class RegistrationForm extends JPanel{
         formPanel.add(gender);
 
         // birth date
-        birthDateLabel = new JLabel("Date de naissance du membre: ");
+        birthDateLabel = new JLabel("Date de naissance du lecteur: ");
         birthDateLabel.setHorizontalAlignment(SwingConstants.CENTER);
         formPanel.add(birthDateLabel);
 
@@ -82,15 +82,15 @@ public class RegistrationForm extends JPanel{
         birthDate = new JSpinner(model);
         JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(birthDate, "dd/MM/yyyy");
         birthDate.setEditor(dateEditor);
-        birthDate.setToolTipText("Entrer la date d'anniversaire du membre");
+        birthDate.setToolTipText("Entrer la date d'anniversaire du lecteur");
         formPanel.add(birthDate);
 
         // email
-        emailLabel = new JLabel("Email du membre: ");
+        emailLabel = new JLabel("Email du lecteur: ");
         emailLabel.setHorizontalAlignment(SwingConstants.CENTER);
         formPanel.add(emailLabel);
         email = new JTextField();
-        email.setToolTipText("Entrer l'email du membre");
+        email.setToolTipText("Entrer l'email du lecteur");
         formPanel.add(email);
 
         // numberPhone
@@ -98,17 +98,17 @@ public class RegistrationForm extends JPanel{
         numberPhoneLabel.setHorizontalAlignment(SwingConstants.CENTER);
         formPanel.add(numberPhoneLabel);
         numberPhone = new JTextField();
-        numberPhone.setToolTipText("Entrer le n° de téléphone du membre");
+        numberPhone.setToolTipText("Entrer le n° de téléphone du lecteur");
         formPanel.add(numberPhone);
 
 
 
         // streetNumberAndName
-        streetNumberLabel = new JLabel("Rue et numéro du membre: ");
+        streetNumberLabel = new JLabel("Rue et numéro du lecteur: ");
         streetNumberLabel.setHorizontalAlignment(SwingConstants.CENTER);
         formPanel.add(streetNumberLabel);
         streetNumberAndName = new JTextField();
-        streetNumberAndName.setToolTipText("Entrer la rue et le numéro du membre");
+        streetNumberAndName.setToolTipText("Entrer la rue et le numéro du lecteur");
         formPanel.add(streetNumberAndName);
 
 
@@ -132,7 +132,7 @@ public class RegistrationForm extends JPanel{
         formPanel.add(nameLocation);
 
         // had paid registration
-        hadPaidRegistrationLabel = new JLabel("A payé l'inscription ?");
+        hadPaidRegistrationLabel = new JLabel("A payé(e) l'inscription ?");
         hadPaidRegistrationLabel.setHorizontalAlignment(SwingConstants.CENTER);
         formPanel.add(hadPaidRegistrationLabel);
         hadPaidRegistration = new JCheckBox();

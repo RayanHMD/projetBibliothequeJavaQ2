@@ -41,7 +41,7 @@ public class ReaderDBAccess implements ReaderDataAccess {
             }
 
         } catch (SQLException exception) {
-            throw new DataAccessException("Impossible de recuperer les lecteurs.", exception);
+            throw new DataAccessException("Impossible de récupérer les lecteurs.", exception);
         }
 
         return readers;
@@ -143,7 +143,7 @@ public class ReaderDBAccess implements ReaderDataAccess {
             connection.setAutoCommit(false);
 
             if(hasCurrentLoan(connection, reader.getReaderNumber())) {
-                throw new SQLException("Impossible de supprimer le lecteur car il possede des emprunts.");
+                throw new SQLException("Impossible de supprimer le lecteur car il possède des emprunts.");
             }
             ArrayList<Integer> reservationsIds = getReservationsIds(connection, reader.getReaderNumber());
 
@@ -171,7 +171,7 @@ public class ReaderDBAccess implements ReaderDataAccess {
                     connection.setAutoCommit(true);
                 }
             } catch (SQLException exception) {
-                throw new DataAccessException("Impossible de retablir l'auto-commit.", exception);
+                throw new DataAccessException("Impossible de rétablir l'auto-commit.", exception);
             }
         }
     }

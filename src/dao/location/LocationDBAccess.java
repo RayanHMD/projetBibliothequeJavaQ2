@@ -34,7 +34,7 @@ public class LocationDBAccess implements LocationDataAccess {
             }
 
         } catch (SQLException exception) {
-            throw new DataAccessException("Impossible de recuperer les localites", exception);
+            throw new DataAccessException("Impossible de récupérer les localites", exception);
         }
 
         return locations;

@@ -23,17 +23,17 @@ public class ReaderListPanel extends JPanel {
         add(title, BorderLayout.NORTH);
 
         String[] columns = {
-                "Numero lecteur",
+                "Numéro lecteur",
                 "Nom",
                 "Prenom",
                 "Genre",
-                "Telephone",
-                "Date inscription",
-                "A paye",
-                "Date naissance",
+                "Téléphone",
+                "Date d'inscription",
+                "A payé(e)",
+                "Date de naissance",
                 "Email",
                 "Adresse",
-                "Localite",
+                "Localité",
                 "Modifier",
                 "Supprimer"
         };
@@ -104,7 +104,7 @@ public class ReaderListPanel extends JPanel {
 
                     int confirm = JOptionPane.showConfirmDialog(
                             ReaderListPanel.this,
-                            "Supprimer le lecteur numero " + readerNumber + " ?",
+                            "Supprimer le lecteur numéro " + readerNumber + " et ses données liées ?",
                             "Confirmation",
                             JOptionPane.YES_NO_OPTION
                     );

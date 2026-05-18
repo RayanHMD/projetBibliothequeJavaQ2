@@ -35,14 +35,14 @@ public class MenuWindow extends JFrame {
         //endregion
 
         //region Reader
-        reader = new JMenu("Utilisateur");
+        reader = new JMenu("Utilisateurs");
         reader.setMnemonic('U');
         menuBar.add(reader);
         inscription = new JMenuItem("Inscription");
         reader.add(inscription);
         inscription.addActionListener(e -> showPanel(new RegistrationForm(this)));
 
-        readerList = new JMenuItem("Lister les membres");
+        readerList = new JMenuItem("Lister les lecteurs");
         reader.add(readerList);
         readerList.addActionListener(e -> showReaderList());
 

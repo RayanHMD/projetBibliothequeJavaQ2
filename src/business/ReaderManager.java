@@ -61,7 +61,7 @@ public class ReaderManager {
         }
 
         if(reader.getHadPaidRegistration() == null) {
-            throw new BusinessException("Le paiement de l'inscription doit etre précisé.");
+            throw new BusinessException("Le paiement de l'inscription doit être précisé.");
         }
 
         String regex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
@@ -83,7 +83,7 @@ public class ReaderManager {
                 || reader.getLocation().getName().trim().isEmpty()
                 || reader.getLocation().getPostalCode() == null
                 || reader.getLocation().getPostalCode() <= 0) {
-            throw new BusinessException("La localite est obligatoire.");
+            throw new BusinessException("La localité est obligatoire.");
         }
 
 
