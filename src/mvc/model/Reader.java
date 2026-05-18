@@ -84,4 +84,9 @@ public class Reader {
     public Location getLocation() {
         return location;
     }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName + " (" + readerNumber + ")";
+    }
 }

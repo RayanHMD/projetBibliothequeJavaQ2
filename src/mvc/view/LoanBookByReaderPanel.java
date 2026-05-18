@@ -2,6 +2,8 @@ package mvc.view;
 
 import exception.DataAccessException;
 import mvc.controller.LoanSearchByBookInReaderController;
+import mvc.controller.ReaderController;
+import mvc.model.Reader;
 import mvc.model.recherches.ResultLoanSearchByBookInReader;
 
 import javax.swing.*;
@@ -11,10 +13,12 @@ import java.util.ArrayList;
 
 public class LoanBookByReaderPanel extends JPanel {
    private  JTable table;
-   private JTextField textFieldReaderNumber;
+   private JTextField filterField;
+   private JComboBox<Reader> readerComboBox;
+   private ArrayList<Reader> readers;
+   private ReaderController readerController;
    private LoanSearchByBookInReaderController controller;
    private DefaultTableModel tableModel;
-   private Integer readerNumber;
 
     public LoanBookByReaderPanel() {
         controller = new LoanSearchByBookInReaderController();
@@ -26,10 +30,45 @@ public class LoanBookByReaderPanel extends JPanel {
         JLabel title = new JLabel("Liste des emprunts pour un lecteur", SwingConstants.CENTER);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        //panel insert readerNumber
+        //panel search reader
+        readerController = new ReaderController();
+
         JPanel panelReader = new JPanel();
-        panelReader.add(new JLabel("Entrer le numéro du lecteur : "));
-        panelReader.add(this.textFieldReaderNumber = new JTextField(20));
+        panelReader.add(new JLabel("Filtrer : "));
+
+        filterField = new JTextField(15);
+        panelReader.add(filterField);
+
+        panelReader.add(new JLabel("Choisir un lecteur : "));
+
+        readerComboBox = new JComboBox<>();
+        panelReader.add(readerComboBox);
+
+        readers = new ArrayList<>();
+
+        try {
+            readers = readerController.getAllReaders();
+            refreshReaderComboBox("");
+        } catch (DataAccessException exception) {
+            JOptionPane.showMessageDialog(this, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+
+        filterField.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                refreshReaderComboBox(filterField.getText());
+            }
+
+            @Override
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                refreshReaderComboBox(filterField.getText());
+            }
+
+            @Override
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                refreshReaderComboBox(filterField.getText());
+            }
+        });
 
         //panel button
         JPanel panelButton = new JPanel();
@@ -47,15 +86,21 @@ public class LoanBookByReaderPanel extends JPanel {
         add(header, BorderLayout.NORTH);
 
         String[] columns = {"Titre", "Date d'emprunt", "Durée max (jours)", "Date de retour", "Prénom", "Nom"};
-        tableModel = new DefaultTableModel(columns, 0);
+        tableModel = new DefaultTableModel(columns, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
 
         validateButton.addActionListener(e -> {
             searchLoans();
         });
 
         resetButton.addActionListener(e -> {
+            filterField.setText("");
+            readerComboBox.setSelectedIndex(-1);
             tableModel.setRowCount(0);
-            textFieldReaderNumber.setText("");
         });
 
 
@@ -65,32 +110,56 @@ public class LoanBookByReaderPanel extends JPanel {
     }
 
     private void searchLoans() {
-        String input = textFieldReaderNumber.getText().trim();
+        Reader selectedReader = (Reader) readerComboBox.getSelectedItem();
 
-        if (input.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Veuillez entrer un numéro de lecteur.");
+        if (selectedReader == null) {
+            JOptionPane.showMessageDialog(this, "Veuillez choisir un lecteur.");
 
         }
+        else {
+            try {
+                tableModel.setRowCount(0);
 
-        try{
-            readerNumber = Integer.parseInt(input);
-            ArrayList<ResultLoanSearchByBookInReader> loans = controller.getLoansByReader(readerNumber);
+                ArrayList<ResultLoanSearchByBookInReader> loans = controller.getLoansByReader(selectedReader.getReaderNumber());
 
-            for (ResultLoanSearchByBookInReader loan : loans) {
-                tableModel.addRow(new Object[]{
-                        loan.getBookTitle(),
-                        loan.getLoanDate(),
-                        loan.getMaximumLoanDuration(),
-                        loan.getActualReturnDate(),
-                        loan.getReaderFirstName(),
-                        loan.getReaderLastName()
+                for (ResultLoanSearchByBookInReader loan : loans) {
+                    tableModel.addRow(new Object[]{
+                            loan.getBookTitle(),
+                            loan.getLoanDate(),
+                            loan.getMaximumLoanDuration(),
+                            loan.getActualReturnDate(),
+                            loan.getReaderFirstName(),
+                            loan.getReaderLastName()
 
-                });
+                    });
+                }
+                if (loans.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Aucun emprunt trouvé pour ce lecteur.");
+                }
+            } catch(DataAccessException exec){
+                JOptionPane.showMessageDialog(this, exec.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
             }
-        }catch(NumberFormatException e){
-            JOptionPane.showMessageDialog(this, "Le numéro du lecteur est un entier");
-        }catch(DataAccessException exec){
-            JOptionPane.showMessageDialog(this, exec.getMessage());
         }
+    }
+
+    private void refreshReaderComboBox(String filter) {
+        readerComboBox.removeAllItems();
+
+        String filterLowerCase = filter.toLowerCase();
+
+        for(Reader reader : readers) {
+            String readerText = reader.toString().toLowerCase();
+
+            if(readerText.contains(filterLowerCase)) {
+                readerComboBox.addItem(reader);
+            }
+        }
+        if(readerComboBox.getItemCount() == 1) {
+            readerComboBox.setSelectedIndex(0);
+        }
+        else {
+            readerComboBox.setSelectedIndex(-1);
+        }
+
     }
 }
