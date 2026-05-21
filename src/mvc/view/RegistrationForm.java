@@ -251,10 +251,6 @@ public class RegistrationForm extends JPanel{
             return "Veuillez choisir une localité";
         }
 
-        if (!hadPaidRegistration.isSelected()) {
-            return "Le paiement de l'inscription est obligatoire";
-        }
-
         return null;
     }
 
