@@ -1,8 +1,11 @@
 package mvc.view;
 
+import business.LoanManager;
+import exception.BusinessException;
 import exception.DataAccessException;
 import mvc.controller.LoanSearchByBookInReaderController;
 import mvc.controller.ReaderController;
+import mvc.model.Loan;
 import mvc.model.Reader;
 import mvc.model.recherches.ResultLoanSearchByBookInReader;
 
@@ -18,10 +21,15 @@ public class LoanBookByReaderPanel extends JPanel {
    private ArrayList<Reader> readers;
    private ReaderController readerController;
    private LoanSearchByBookInReaderController controller;
+   private LoanManager loanManager;
+   private ArrayList<ResultLoanSearchByBookInReader> displayedLoans;
    private DefaultTableModel tableModel;
 
     public LoanBookByReaderPanel() {
         controller = new LoanSearchByBookInReaderController();
+        readerController = new ReaderController();
+        loanManager = new LoanManager();
+        displayedLoans = new ArrayList<>();
         setLayout(new BorderLayout());
         JPanel header = new JPanel();
         header.setLayout(new BoxLayout(header, BoxLayout.Y_AXIS));
@@ -31,8 +39,6 @@ public class LoanBookByReaderPanel extends JPanel {
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         //panel search reader
-        readerController = new ReaderController();
-
         JPanel panelReader = new JPanel();
         panelReader.add(new JLabel("Filtrer : "));
 
@@ -85,11 +91,11 @@ public class LoanBookByReaderPanel extends JPanel {
 
         add(header, BorderLayout.NORTH);
 
-        String[] columns = {"Titre", "Date d'emprunt", "Durée max (jours)", "Date de retour", "Prénom", "Nom"};
+        String[] columns = {"Titre", "Date d'emprunt", "Durée max (jours)", "Date de retour", "Prénom", "Nom", "Amende"};
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false;
+                return column == 6;
             }
         };
 
@@ -105,6 +111,30 @@ public class LoanBookByReaderPanel extends JPanel {
 
 
         table = new JTable(tableModel);
+        JButton fineButton = new JButton("Calculer");
+
+        table.getColumn("Amende").setCellRenderer((table, value, isSelected, hasFocus, row, column) -> fineButton);
+
+        table.getColumn("Amende").setCellEditor(new DefaultCellEditor(new JCheckBox()) {
+            @Override
+            public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+                JButton button = new JButton("Calculer");
+
+                button.addActionListener(e -> {
+                    fireEditingStopped();
+
+                    int modelRow = table.convertRowIndexToModel(row);
+                    calculateFine(modelRow);
+                });
+
+                return button;
+            }
+
+            @Override
+            public Object getCellEditorValue() {
+                return "Calculer";
+            }
+        });
         add(new JScrollPane(table), BorderLayout.CENTER);
 
     }
@@ -119,17 +149,19 @@ public class LoanBookByReaderPanel extends JPanel {
         else {
             try {
                 tableModel.setRowCount(0);
-
+                displayedLoans.clear();
                 ArrayList<ResultLoanSearchByBookInReader> loans = controller.getLoansByReader(selectedReader.getReaderNumber());
 
                 for (ResultLoanSearchByBookInReader loan : loans) {
+                    displayedLoans.add(loan);
                     tableModel.addRow(new Object[]{
                             loan.getBookTitle(),
                             loan.getLoanDate(),
                             loan.getMaximumLoanDuration(),
                             loan.getActualReturnDate(),
                             loan.getReaderFirstName(),
-                            loan.getReaderLastName()
+                            loan.getReaderLastName(),
+                            "Calculer"
 
                     });
                 }
@@ -139,6 +171,37 @@ public class LoanBookByReaderPanel extends JPanel {
             } catch(DataAccessException exec){
                 JOptionPane.showMessageDialog(this, exec.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
             }
+        }
+    }
+
+    private void calculateFine(int row) {
+        try {
+            ResultLoanSearchByBookInReader selectedLoan = displayedLoans.get(row);
+
+            Loan loan = new Loan(
+                    null,
+                    selectedLoan.getLoanDate(),
+                    selectedLoan.getMaximumLoanDuration(),
+                    selectedLoan.getActualReturnDate(),
+                    null,
+                    null
+            );
+
+            int lateDays = loanManager.calculateLateDays(loan, new java.util.Date());
+            double fine = loanManager.calculateLateFee(loan, new java.util.Date());
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Livre : " + selectedLoan.getBookTitle() + "\n" +
+                            "Lecteur : " + selectedLoan.getReaderFirstName() + " " + selectedLoan.getReaderLastName() + "\n" +
+                            "Nombre de jours de retard : " + lateDays + "\n" +
+                            "Amende : " + fine + " €",
+                    "Calcul de l'amende",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
+        } catch (BusinessException exception) {
+            JOptionPane.showMessageDialog(this, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
         }
     }
 
