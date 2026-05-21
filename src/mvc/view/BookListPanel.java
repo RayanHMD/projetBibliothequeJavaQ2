@@ -20,8 +20,11 @@ public class BookListPanel extends JPanel {
     private BookListController bookListController;
     private CategoryController categoryController;
     private SearchBookByCategoryController searchBookByCategoryController;
+    private JButton backButton;
+    private MenuWindow parent;
 
-    public BookListPanel() {
+    public BookListPanel(MenuWindow parent) {
+        this.parent = parent;
         setLayout(new BorderLayout());
         JPanel header = new JPanel();
         header.setLayout(new BoxLayout(header, BoxLayout.Y_AXIS));
@@ -101,8 +104,23 @@ public class BookListPanel extends JPanel {
 
 
 
+        // button back menu
+        backButton = new JButton("Retour à la page d'accueil");
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.addActionListener(e -> {
+            this.parent.setAccueil();
+        });
+
+
+
+        JPanel footer = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        footer.add(backButton);
+        add(footer, BorderLayout.SOUTH);
+
         table = new JTable(tableModel);
         add(new JScrollPane(table), BorderLayout.CENTER);
+
+
     }
 
     private void addBookRow(ResultBookList book) {
