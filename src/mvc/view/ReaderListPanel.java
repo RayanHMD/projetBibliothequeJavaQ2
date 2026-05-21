@@ -77,14 +77,7 @@ public class ReaderListPanel extends JPanel {
                         return;
                     }
 
-                    MenuWindow menuWindow = (MenuWindow) SwingUtilities.getWindowAncestor(ReaderListPanel.this);
-
-                    if (menuWindow == null) {
-                        JOptionPane.showMessageDialog(ReaderListPanel.this, "Fenêtre principale introuvable.");
-                        return;
-                    }
-
-                    menuWindow.showPanel(new RegistrationForm(menuWindow, selectedReader));
+                    parent.showPanel(new RegistrationForm(parent, selectedReader));
                 });
 
                 return btn;

@@ -65,7 +65,7 @@ public class ReaderManager {
         }
 
         String regex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
-        if(!reader.getEmail().matches(regex)) {
+        if(!reader.getEmail().trim().matches(regex)) {
             throw new BusinessException("L'email est invalide.");
         }
 

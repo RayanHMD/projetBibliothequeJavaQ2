@@ -111,7 +111,7 @@ public class LoanPanel extends JPanel {
 
     }
 
-    public void loadLoans(ArrayList<ResultSearchLoansBetweenDates> loans) {
+    private void loadLoans(ArrayList<ResultSearchLoansBetweenDates> loans) {
         tableModel.setRowCount(0);
         for (ResultSearchLoansBetweenDates loan : loans) {
             tableModel.addRow(new Object[]{

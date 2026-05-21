@@ -110,6 +110,7 @@ public class LoanBookByReaderPanel extends JPanel {
             filterField.setText("");
             readerComboBox.setSelectedIndex(-1);
             tableModel.setRowCount(0);
+            displayedLoans.clear();
         });
 
 
@@ -204,8 +205,9 @@ public class LoanBookByReaderPanel extends JPanel {
                     null
             );
 
-            int lateDays = loanManager.calculateLateDays(loan, new java.util.Date());
-            double fine = loanManager.calculateLateFee(loan, new java.util.Date());
+            java.util.Date today = new java.util.Date();
+            int lateDays = loanManager.calculateLateDays(loan, today);
+            double fine = loanManager.calculateLateFee(loan, today);
 
             JOptionPane.showMessageDialog(
                     this,

@@ -8,16 +8,15 @@ import java.awt.event.WindowEvent;
 public class MenuWindow extends JFrame {
     private JMenuBar menuBar;
     private JMenu application, reader, book, loan;
-    private JMenuItem quitter, inscription,readerList, bookList, loanList, loanReaderIsbn;
-    private Container frameContainer;
+    private JMenuItem quitter, inscription,readerList, bookList, loanList, loanByReader;
 
     public MenuWindow() {
         super("First Window");
         setBounds(100, 100, 600, 500);
         setLocationRelativeTo(null);
-        frameContainer = this.getContentPane();
-        frameContainer.setLayout(new BorderLayout());
-        frameContainer.add(new AnimatedLabel("Bibliothèque HÉNALLUX"), BorderLayout.CENTER);
+        Container c = this.getContentPane();
+        c.setLayout(new BorderLayout());
+        c.add(new AnimatedLabel("Bibliothèque HÉNALLUX"), BorderLayout.CENTER);
 
         //region Barre avec les menus
         menuBar = new JMenuBar();
@@ -68,10 +67,10 @@ public class MenuWindow extends JFrame {
         loanList.addActionListener(e -> showPanel(new LoanPanel(this)));
         //endregion
 
-        //loan by isbn
-        loanReaderIsbn = new JMenuItem("Emprunt par lecteur");
-        loan.add(loanReaderIsbn);
-        loanReaderIsbn.addActionListener(e -> showPanel(new LoanBookByReaderPanel(this)));
+        //loan by reader
+        loanByReader = new JMenuItem("Emprunts par lecteur");
+        loan.add(loanByReader);
+        loanByReader.addActionListener(e -> showPanel(new LoanBookByReaderPanel(this)));
         //region Ferme toute la fenêtre
         addWindowListener(new WindowAdapter() {
             @Override
