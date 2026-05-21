@@ -13,10 +13,12 @@ public class ReaderListPanel extends JPanel {
     private JTable table;
     private DefaultTableModel tableModel;
     private ReaderController readerController;
+    private ArrayList<Reader> displayedReaders;
 
     public ReaderListPanel() {
         setLayout(new BorderLayout());
         readerController = new ReaderController();
+        displayedReaders = new ArrayList<>();
 
         JLabel title = new JLabel("Liste des lecteurs", SwingConstants.CENTER);
         title.setFont(title.getFont().deriveFont(20f));
@@ -25,7 +27,7 @@ public class ReaderListPanel extends JPanel {
         String[] columns = {
                 "Numéro lecteur",
                 "Nom",
-                "Prenom",
+                "Prénom",
                 "Genre",
                 "Téléphone",
                 "Date d'inscription",
@@ -64,9 +66,8 @@ public class ReaderListPanel extends JPanel {
                 btn.addActionListener(e -> {
                     fireEditingStopped();
 
-                    Integer readerNumber = (Integer) table.getValueAt(row, 0);
-
-                    Reader selectedReader = findReaderByNumber(readerNumber);
+                    int modelRow = table.convertRowIndexToModel(row);
+                    Reader selectedReader = displayedReaders.get(modelRow);
 
                     if (selectedReader == null) {
                         JOptionPane.showMessageDialog(ReaderListPanel.this, "Lecteur introuvable.");
@@ -100,7 +101,15 @@ public class ReaderListPanel extends JPanel {
                 btn.addActionListener(e -> {
                     fireEditingStopped();
 
-                    Integer readerNumber = (Integer) table.getValueAt(row, 0);
+                    int modelRow = table.convertRowIndexToModel(row);
+                    Reader selectedReader = displayedReaders.get(modelRow);
+
+                    if (selectedReader == null) {
+                        JOptionPane.showMessageDialog(ReaderListPanel.this, "Lecteur introuvable.");
+                        return;
+                    }
+
+                    Integer readerNumber = selectedReader.getReaderNumber();
 
                     int confirm = JOptionPane.showConfirmDialog(
                             ReaderListPanel.this,
@@ -110,7 +119,7 @@ public class ReaderListPanel extends JPanel {
                     );
 
                     if (confirm == JOptionPane.YES_OPTION) {
-                        deleteReaderByNumber(readerNumber);
+                        deleteReader(selectedReader);
                     }
                 });
                 return btn;
@@ -127,11 +136,13 @@ public class ReaderListPanel extends JPanel {
 
     private void loadReaders() {
         tableModel.setRowCount(0);
+        displayedReaders.clear();
 
         try {
             ArrayList<Reader> readers = readerController.getAllReaders();
 
             for(Reader reader : readers) {
+                displayedReaders.add(reader);
                 tableModel.addRow(new Object[]{
                         reader.getReaderNumber(),
                         reader.getLastName(),
@@ -153,41 +164,14 @@ public class ReaderListPanel extends JPanel {
         }
     }
 
-    private void deleteReaderByNumber(Integer readerNumber) {
-        Reader selectedReader = findReaderByNumber(readerNumber);
-
-        if(selectedReader == null) {
-            JOptionPane.showMessageDialog(this, "Lecteur introuvable.");
-        }
-        else {
-            try {
-                readerController.deleteReader(selectedReader);
-                loadReaders();
-
-                JOptionPane.showMessageDialog(this, "Lecteur supprimé.");
-            } catch (DataAccessException exception) {
-                JOptionPane.showMessageDialog(this, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
-
-    private Reader findReaderByNumber(Integer readerNumber) {
+    private void deleteReader(Reader selectedReader) {
         try {
-            ArrayList<Reader> readers = readerController.getAllReaders();
+            readerController.deleteReader(selectedReader);
+            loadReaders();
 
-            int index = 0;
-
-            while(index < readers.size() && !(readers.get(index).getReaderNumber().equals(readerNumber))) {
-                index++;
-            }
-
-            if(index < readers.size()) {
-                return readers.get(index);
-            }
-        } catch(DataAccessException exception) {
+            JOptionPane.showMessageDialog(this, "Lecteur supprimé.");
+        } catch (DataAccessException exception) {
             JOptionPane.showMessageDialog(this, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
         }
-
-        return null;
     }
 }
