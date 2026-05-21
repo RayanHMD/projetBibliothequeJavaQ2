@@ -54,7 +54,7 @@ public class MenuWindow extends JFrame {
         menuBar.add(book);
         bookList = new JMenuItem("Liste livres");
         book.add(bookList);
-        bookList.addActionListener(e -> showPanel(new BookListPanel()));
+        bookList.addActionListener(e -> showPanel(new BookListPanel(this)));
         //endregion
 
         //region loan
@@ -65,13 +65,13 @@ public class MenuWindow extends JFrame {
         // new loan
         loanList = new JMenuItem("Lister les emprunts");
         loan.add(loanList);
-        loanList.addActionListener(e -> showPanel(new LoanPanel()));
+        loanList.addActionListener(e -> showPanel(new LoanPanel(this)));
         //endregion
 
         //loan by isbn
         loanReaderIsbn = new JMenuItem("Emprunt par lecteur");
         loan.add(loanReaderIsbn);
-        loanReaderIsbn.addActionListener(e -> showPanel(new LoanBookByReaderPanel()));
+        loanReaderIsbn.addActionListener(e -> showPanel(new LoanBookByReaderPanel(this)));
         //region Ferme toute la fenêtre
         addWindowListener(new WindowAdapter() {
             @Override
@@ -102,6 +102,6 @@ public class MenuWindow extends JFrame {
     }
 
     public void showReaderList() {
-        showPanel(new ReaderListPanel());
+        showPanel(new ReaderListPanel(this));
     }
 }

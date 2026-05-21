@@ -14,8 +14,11 @@ public class ReaderListPanel extends JPanel {
     private DefaultTableModel tableModel;
     private ReaderController readerController;
     private ArrayList<Reader> displayedReaders;
+    private JButton backButton;
+    private MenuWindow parent;
 
-    public ReaderListPanel() {
+    public ReaderListPanel(MenuWindow parent) {
+        this.parent = parent;
         setLayout(new BorderLayout());
         readerController = new ReaderController();
         displayedReaders = new ArrayList<>();
@@ -130,6 +133,19 @@ public class ReaderListPanel extends JPanel {
                 return "";
             }
         });
+
+        // button back menu
+        backButton = new JButton("Retour à la page d'accueil");
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.addActionListener(e -> {
+            this.parent.setAccueil();
+        });
+
+
+
+        JPanel footer = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        footer.add(backButton);
+        add(footer, BorderLayout.SOUTH);
 
         add(new JScrollPane(table), BorderLayout.CENTER);
     }

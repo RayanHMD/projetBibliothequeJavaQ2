@@ -24,8 +24,11 @@ public class LoanBookByReaderPanel extends JPanel {
    private LoanManager loanManager;
    private ArrayList<ResultLoanSearchByBookInReader> displayedLoans;
    private DefaultTableModel tableModel;
+   private MenuWindow parent;
+   private JButton backButton;
 
-    public LoanBookByReaderPanel() {
+    public LoanBookByReaderPanel(MenuWindow parent) {
+        this.parent = parent;
         controller = new LoanSearchByBookInReaderController();
         readerController = new ReaderController();
         loanManager = new LoanManager();
@@ -135,6 +138,20 @@ public class LoanBookByReaderPanel extends JPanel {
                 return "Calculer";
             }
         });
+
+        // button back menu
+
+        backButton = new JButton("Retour à la page d'accueil");
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.addActionListener(e -> {
+            this.parent.setAccueil();
+        });
+
+
+
+        JPanel footer = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        footer.add(backButton);
+        add(footer, BorderLayout.SOUTH);
         add(new JScrollPane(table), BorderLayout.CENTER);
 
     }
