@@ -3,12 +3,12 @@ package mvc.model;
 import java.util.Date;
 
 public class Reservation {
-    private Integer id;
+    private Integer idReservation;
     private Date startDateOfBlockage;
     private Integer blockingDuration;
 
-    public Reservation(int id, Date startDateOfBlockage, int blockingDuration) {
-        this.id = id;
+    public Reservation(int idReservation, Date startDateOfBlockage, int blockingDuration) {
+        this.idReservation = idReservation;
         this.startDateOfBlockage = startDateOfBlockage;
         this.blockingDuration = blockingDuration;
     }
