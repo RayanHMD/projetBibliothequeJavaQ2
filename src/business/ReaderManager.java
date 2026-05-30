@@ -42,9 +42,15 @@ public class ReaderManager {
         if(reader.getLastName() == null || reader.getLastName().trim().isEmpty()) {
             throw new BusinessException("Le nom est obligatoire.");
         }
+        if(reader.getLastName().trim().length() > 100) {
+            throw new BusinessException("Le nom ne peut pas dépasser 100 caractères.");
+        }
 
         if(reader.getFirstName() == null || reader.getFirstName().trim().isEmpty()) {
             throw new BusinessException("Le prénom est obligatoire.");
+        }
+        if(reader.getFirstName().trim().length() > 100) {
+            throw new BusinessException("Le prénom ne peut pas dépasser 100 caractères.");
         }
 
         Character gender = reader.getGender();
@@ -52,30 +58,39 @@ public class ReaderManager {
             throw new BusinessException("Le genre doit être m, f ou x.");
         }
 
-        if(reader.getStreetNumberAndName() == null || reader.getStreetNumberAndName().trim().isEmpty()) {
-            throw new BusinessException("La rue et le numéro sont obligatoires.");
+        if(reader.getNumberPhone() != null && reader.getNumberPhone().trim().length() > 20) {
+            throw new BusinessException("Le numéro de téléphone ne peut pas dépasser 20 caractères.");
         }
 
-        if(reader.getEmail() == null || reader.getEmail().trim().isEmpty()) {
-            throw new BusinessException("L'email est obligatoire.");
+        Date today = new Date();
+        if(reader.getRegistrationDate() == null || reader.getRegistrationDate().after(today)) {
+            throw new BusinessException("La date d'inscription est invalide.");
         }
 
         if(reader.getHadPaidRegistration() == null) {
             throw new BusinessException("Le paiement de l'inscription doit être précisé.");
         }
 
+        if(reader.getBirthDate() == null || reader.getBirthDate().after(today)) {
+            throw new BusinessException("La date de naissance est invalide.");
+        }
+
+        if(reader.getEmail() == null || reader.getEmail().trim().isEmpty()) {
+            throw new BusinessException("L'email est obligatoire.");
+        }
+        if(reader.getEmail().trim().length() > 255) {
+            throw new BusinessException("L'email ne peut pas dépasser 255 caractères.");
+        }
         String regex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
         if(!reader.getEmail().trim().matches(regex)) {
             throw new BusinessException("L'email est invalide.");
         }
 
-        Date today = new Date();
-        if(reader.getBirthDate() == null || reader.getBirthDate().after(today)) {
-            throw new BusinessException("La date de naissance est invalide.");
+        if(reader.getStreetNumberAndName() == null || reader.getStreetNumberAndName().trim().isEmpty()) {
+            throw new BusinessException("La rue et le numéro sont obligatoires.");
         }
-
-        if(reader.getRegistrationDate() == null || reader.getRegistrationDate().after(today)) {
-            throw new BusinessException("La date d'inscription est invalide.");
+        if(reader.getStreetNumberAndName().trim().length() > 150) {
+            throw new BusinessException("L'adresse ne peut pas dépasser 150 caractères.");
         }
 
         if(reader.getLocation() == null

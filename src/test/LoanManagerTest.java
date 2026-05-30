@@ -28,7 +28,7 @@ class LoanManagerTest {
     }
 
     @Test
-    void calculateDueDate() {
+    void calculateDueDate() throws BusinessException {
         Date expectedDate = createDate(2026,5,31);
         assertEquals(expectedDate, loanManager.calculateDueDate(loan));
     }
@@ -52,7 +52,7 @@ class LoanManagerTest {
     }
 
     @Test
-    void calculateLateDays() {
+    void calculateLateDays() throws BusinessException {
         int expectedDays = 2;
         assertEquals(expectedDays, loanManager.calculateLateDays(loan, createDate(2026,6,2)));
     }
@@ -63,12 +63,12 @@ class LoanManagerTest {
     }
 
     @Test
-    void isLate() {
+    void isLate() throws BusinessException {
         assertTrue(loanManager.isLate(loan, createDate(2026,6,2)));
     }
 
     @Test
-    void calculateLateFee() {
+    void calculateLateFee() throws BusinessException {
         double expectedFees = 1.0;
         assertEquals(expectedFees, loanManager.calculateLateFee(loan, createDate(2026, 6, 2)), 0.01);
     }

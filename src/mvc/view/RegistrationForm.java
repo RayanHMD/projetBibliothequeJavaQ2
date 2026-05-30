@@ -223,9 +223,15 @@ public class RegistrationForm extends JPanel{
         if (firstName.getText().trim().isEmpty()) {
             return "Veuillez entrer un prénom";
         }
+        if(firstName.getText().trim().length() > 100) {
+            return "Le prénom ne peut pas dépasser 100 caractères.";
+        }
 
         if (lastName.getText().trim().isEmpty()) {
             return "Veuillez entrer un nom de famille";
+        }
+        if(lastName.getText().trim().length() > 100) {
+            return "Le prénom ne peut pas dépasser 100 caractères.";
         }
 
         Date selectedDate = (Date) birthDate.getValue();
@@ -237,14 +243,23 @@ public class RegistrationForm extends JPanel{
             return "Veuillez entrer un email";
         }
 
+        if(email.getText().trim().length() > 255) {
+            return "L'email ne peut pas dépasser 255 caractères.";
+        }
         String regex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
-
         if (!email.getText().trim().matches(regex)) {
             return "Email invalide";
         }
 
+        if(!numberPhone.getText().trim().isEmpty() && numberPhone.getText().trim().length() > 20){
+            return "Le numéro de téléphone ne peut pas dépasser 20 caractères.";
+        }
+
         if (streetNumberAndName.getText().trim().isEmpty()) {
             return "Entrer une rue et un numéro";
+        }
+        if(streetNumberAndName.getText().trim().length() > 150) {
+            return "L'adresse ne peut pas dépasser 150 caractères.";
         }
 
         if (nameLocation.getSelectedIndex() == 0) {
