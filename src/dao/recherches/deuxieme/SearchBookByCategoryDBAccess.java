@@ -20,10 +20,10 @@ public class SearchBookByCategoryDBAccess implements SearchBookByCategoryDataAcc
                         "GROUP_CONCAT(CONCAT(a.firstName, ' ', a.lastName) SEPARATOR ', ') AS authors, " +
                         "pu.name, c.label " +
                     "FROM Category c " +
-                    "JOIN Book b on b.category = c.label " +
-                    "JOIN Production p on p.book = b.isbn " +
-                    "JOIN Author a on a.idAuthor = p.author " +
-                    "LEFT JOIN Publisher pu on pu.idPublisher = b.publisher " +
+                    "JOIN Book b ON b.category = c.label " +
+                    "JOIN Production p ON p.book = b.isbn " +
+                    "JOIN Author a ON a.idAuthor = p.author " +
+                    "LEFT JOIN Publisher pu ON pu.idPublisher = b.publisher " +
                     "WHERE c.label = ? " +
                     "GROUP BY b.isbn, b.title, pu.name, c.label";
 

@@ -18,9 +18,9 @@ public class LoanSearchByBookInReaderDBAccess implements LoanSearchByBookInReade
 
         String sql = "SELECT b.title, l.loanDate, l.maximumLoanDuration, l.actualReturnDate, r.firstName, r.lastName, r.numberPhone " +
                         "FROM Reader r " +
-                        "JOIN Loan l on r.readerNumber = l.borrower " +
-                        "JOIN Copy c on c.idCopy = l.copy " +
-                        "JOIN Book b on b.isbn = c.book " +
+                        "JOIN Loan l ON r.readerNumber = l.borrower " +
+                        "JOIN Copy c ON c.idCopy = l.copy " +
+                        "JOIN Book b ON b.isbn = c.book " +
                         "WHERE r.readerNumber = ?;";
 
         try {

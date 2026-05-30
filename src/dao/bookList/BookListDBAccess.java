@@ -14,11 +14,11 @@ public class BookListDBAccess implements BookListDataAccess {
 
         String sql = "SELECT b.isbn, b.title, " +
                         "GROUP_CONCAT(CONCAT(a.firstName, ' ', a.lastName) SEPARATOR ', ') AS authors, " +
-                        " pu.name, c.label\n" +
-                    "FROM Category c\n" +
-                    "JOIN Book b ON b.category = c.label\n" +
-                    "JOIN Production p ON p.book = b.isbn\n" +
-                    "JOIN Author a ON a.idAuthor = p.author\n" +
+                        " pu.name, c.label " +
+                    "FROM Category c " +
+                    "JOIN Book b ON b.category = c.label " +
+                    "JOIN Production p ON p.book = b.isbn " +
+                    "JOIN Author a ON a.idAuthor = p.author " +
                     "LEFT JOIN Publisher pu ON pu.idPublisher = b.publisher " +
                     "GROUP BY b.isbn, b.title, pu.name, c.label";
 

@@ -96,7 +96,7 @@ public class ReaderDBAccess implements ReaderDataAccess {
         String sql = "UPDATE Reader " +
                      "SET lastName = ?, firstName = ?, gender = ?, numberPhone = ?, registrationDate = ?, " +
                         "hadPaidRegistration = ?, birthDate = ?, email = ?, streetNumberAndName = ?, nameLocation = ?, " +
-                        "postalCodeLocation = ?\n" +
+                        "postalCodeLocation = ? " +
                      "WHERE readerNumber = ?";
 
         try {
