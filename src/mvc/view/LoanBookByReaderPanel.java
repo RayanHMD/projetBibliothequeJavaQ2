@@ -94,7 +94,7 @@ public class LoanBookByReaderPanel extends JPanel {
 
         add(header, BorderLayout.NORTH);
 
-        String[] columns = {"Titre", "Date d'emprunt", "Durée max (jours)", "Date de retour", "Prénom", "Nom", "Téléphone", "Amende"};
+        String[] columns = {"Titre", "Date d'emprunt", "Durée max (jours)", "Date de retour", "Prénom", "Nom", "Email", "Amende"};
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -179,7 +179,7 @@ public class LoanBookByReaderPanel extends JPanel {
                             loan.getActualReturnDate(),
                             loan.getReaderFirstName(),
                             loan.getReaderLastName(),
-                            loan.getReaderNumberPhone(),
+                            loan.getEmailReader(),
                             "Calculer"
 
                     });

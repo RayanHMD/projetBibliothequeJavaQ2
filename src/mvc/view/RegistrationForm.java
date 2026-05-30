@@ -231,7 +231,7 @@ public class RegistrationForm extends JPanel{
             return "Veuillez entrer un nom de famille";
         }
         if(lastName.getText().trim().length() > 100) {
-            return "Le prénom ne peut pas dépasser 100 caractères.";
+            return "Le nom ne peut pas dépasser 100 caractères.";
         }
 
         Date selectedDate = (Date) birthDate.getValue();

@@ -9,16 +9,16 @@ public class ResultLoanSearchByBookInReader {
     private Date actualReturnDate;
     private String readerFirstName;
     private String readerLastName;
-    private String readerNumberPhone;
+    private String emailReader;
 
-    public ResultLoanSearchByBookInReader(String bookTitle, Date loanDate, Integer maximumLoanDuration, Date actualReturnDate, String readerFirstName, String readerLastName, String readerNumberPhone) {
+    public ResultLoanSearchByBookInReader(String bookTitle, Date loanDate, Integer maximumLoanDuration, Date actualReturnDate, String readerFirstName, String readerLastName, String emailReader) {
         this.bookTitle = bookTitle;
         this.loanDate = loanDate;
         this.maximumLoanDuration = maximumLoanDuration;
         this.actualReturnDate = actualReturnDate;
         this.readerFirstName = readerFirstName;
         this.readerLastName = readerLastName;
-        this.readerNumberPhone = readerNumberPhone;
+        this.emailReader = emailReader;
     }
 
     public String getBookTitle() {
@@ -45,7 +45,7 @@ public class ResultLoanSearchByBookInReader {
         return readerLastName;
     }
 
-    public String getReaderNumberPhone() {
-        return readerNumberPhone;
+    public String getEmailReader() {
+        return emailReader;
     }
 }
